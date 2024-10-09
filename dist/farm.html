@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Boundary Identification</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script src="https://unpkg.com/@turf/turf"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        
+    </style>
+</head>
+<body class="bg-gradient-to-r from-purple-100 via-indigo-100 to-purple-200 min-h-screen flex flex-col">
+    <div class="container mx-auto p-10 flex flex-col space-y-8">
+
+        <!-- Form for village, khasra, and search -->
+        <form id="searchForm" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:space-x-6 items-center">
+                <!-- Village Select -->
+                <div class="flex-grow mb-4 md:mb-0">
+                    <label for="villageSelect" class="block text-lg font-semibold text-gray-800">Select Village:</label>
+                    <select id="villageSelect" name="villageSelect"
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">-- Select Village --</option>
+                        {% for village in village_names %}
+                            <option value="{{ village }}">{{ village }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Khasra Number Input -->
+                <div class="flex-grow mb-4 md:mb-0">
+                    <label for="khasraInput" class="block text-lg font-semibold text-gray-800">Enter Khasra Number:</label>
+                    <input type="text" id="khasraInput" name="khasraInput" placeholder="Khasra Number"
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+
+                <!-- Search Button -->
+                <div>
+                    <button type="button" id="searchButton"
+                        class="mt-5 px-6 py-3 bg-indigo-700 text-white rounded-md shadow-lg hover:bg-indigo-800 transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Error and success messages -->
+        <div id="errorMessage" class="text-red-600 font-semibold hidden text-center text-lg"></div>
+        <div id="successMessage" class="text-green-600 font-semibold hidden text-center text-lg"></div>
+
+        <!-- Map -->
+        <div id="map" class="rounded-2xl shadow-lg h-96"></div>
+
+        <!-- Area display centered with styling -->
+        <div id="areaDisplay" class="mt-4 text-center text-3xl font-bold text-gray-800">
+            Area: <span id="areaValue" class="text-indigo-600 font-bold text-4xl animate-pulse">0</span> acres
+        </div>
+
+        <!-- Farm Name and Save Button -->
+        <form class="space-y-6">
+            <div class="flex flex-col md:flex-row md:space-x-6 items-center">
+                <!-- Farm Name Input -->
+                <div class="flex-grow mb-4 md:mb-0">
+                    <label for="farmNameInput" class="block text-lg font-semibold text-gray-800">Enter Farm Name:</label>
+                    <input type="text" id="farmNameInput" name="farmNameInput" placeholder="Farm Name"
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+
+                <!-- Save Button -->
+                <div>
+                    <button type="button" id="saveButton"
+                        class="mt-5 px-6 py-3 bg-green-700 text-white rounded-md shadow-lg hover:bg-green-800 transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300">
+                        Save Farm
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([26.591, 74.579], 15);
+    
+        // Add ESRI satellite layer as the base map
+        L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; <a href="http://www.esri.com/">Esri</a>, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            maxZoom: 18,
+        }).addTo(map);
+    
+        // Add the vector grid layer using protobuf format
+        var vectorGridLayer = L.vectorGrid.protobuf('/farm/tiles/{z}/{x}/{y}.pbf', {
+            maxZoom: 18,
+            vectorTileLayerStyles: {
+                'farmvision': {
+                    fill: true,
+                    fillColor: '#0000FF',
+                    fillOpacity: 0.3,
+                    color: '#0000FF',
+                    weight: 1
+                }
+            },
+            interactive: true,
+            getFeatureId: function(feature) {
+                return feature.properties.id;
+            }
+        }).addTo(map);
+    
+        // Handle click events on the vector grid layer
+        vectorGridLayer.on('click', function(e) {
+            var properties = e.layer.properties;
+            var popupContent = '<b>Khasra No:</b> ' + (properties.Khasra_No || 'N/A') + '<br>' +
+                            '<b>Village Name:</b> ' + (properties.Village_Na || 'N/A') + '<br>' +
+                            '<b>Owner Name:</b> ' + (properties.Owner_s_Na || 'N/A') + '<br>' +
+                            '<b>Classification:</b> ' + (properties.Classifica || 'N/A');
+            L.popup()
+                .setLatLng(e.latlng)
+                .setContent(popupContent)
+                .openOn(map);
+        });
+    
+        // Variable to hold the currently highlighted polygon
+        let currentPolygon = null;
+        let polygonCoordinates = [];
+        let currentArea = 0;
+    
+        // Function to display error messages
+        function displayError(message) {
+            const errorMessageElement = document.getElementById('errorMessage');
+            errorMessageElement.innerText = message;
+            errorMessageElement.classList.remove('hidden'); // Show the error message
+        }
+
+        // Function to display success messages
+        function displaySuccess(message) {
+            const successMessageElement = document.getElementById('successMessage');
+            successMessageElement.innerText = message;
+            successMessageElement.classList.remove('hidden'); // Show the success message
+        }
+
+        // Clear the messages
+        function clearMessages() {
+            const errorMessageElement = document.getElementById('errorMessage');
+            const successMessageElement = document.getElementById('successMessage');
+
+            errorMessageElement.innerText = '';
+            successMessageElement.innerText = '';
+            
+            errorMessageElement.classList.add('hidden'); // Hide the error message
+            successMessageElement.classList.add('hidden'); // Hide the success message
+        }
+
+        // Function to zoom to the specific Khasra number
+        document.getElementById('searchButton').addEventListener('click', function() {
+            clearMessages(); // Clear previous messages
+            var village = document.getElementById('villageSelect').value;
+            var khasraNumber = document.getElementById('khasraInput').value;
+
+            if (!village || !khasraNumber) {
+                displayError("Please select a village and enter a Khasra number.");
+                return;
+            }
+
+            // Make an AJAX call to fetch the boundary for the selected Khasra number
+            fetch(`/farm/get_boundary/?village=${encodeURIComponent(village)}&khasra=${encodeURIComponent(khasraNumber)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Boundary not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Clear the previous polygon if it exists
+                    if (currentPolygon) {
+                        map.removeLayer(currentPolygon);
+                    }
+
+                    // Zoom to the boundary coordinates received from the server
+                    if (data && data.coordinates) {
+                        var latlngs = data.coordinates.map(coord => [coord[1], coord[0]]);
+                        polygonCoordinates = data.coordinates;  // Store coordinates for saving
+                        currentPolygon = L.polygon(latlngs, { color: 'red' }).addTo(map);
+
+                        // Convert the coordinates to GeoJSON format
+                        var geoJsonPolygon = {
+                            "type": "Polygon",
+                            "coordinates": [data.coordinates]
+                        };
+
+                        // Calculate the area in square meters using Turf.js
+                        var areaInSqMeters = turf.area(geoJsonPolygon);
+                        currentArea = areaInSqMeters * 0.000247105; // Convert to acres
+
+                        // Update the area display
+                        document.getElementById('areaValue').innerText = currentArea.toFixed(2); // Display in acres
+
+                        // Attach a popup to the polygon (optional)
+                        currentPolygon.bindPopup("<b>Village Name:</b> " + village + "<br><b>Khasra Number:</b> " + khasraNumber);
+                        currentPolygon.openPopup();
+
+                        // Fit the map to the bounds of the new polygon
+                        map.fitBounds(currentPolygon.getBounds());
+                    }
+                })
+                .catch(error => {
+                    displayError(error.message);
+                });
+        });
+
+        // Save farm data
+        document.getElementById('saveButton').addEventListener('click', function() {
+            clearMessages(); // Clear previous messages
+            var village = document.getElementById('villageSelect').value;
+            var khasra = document.getElementById('khasraInput').value;
+            var farmName = document.getElementById('farmNameInput').value;
+
+            if (!village || !khasra || !farmName || !currentPolygon) {
+                displayError("Please fill in all fields and ensure a polygon is selected.");
+                return;
+            }
+
+            var area = currentArea.toFixed(2);  // Use the calculated area
+
+            // Send the farm details and polygon coordinates to the server
+            fetch('/farm/save_farm_details/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',  // Make sure CSRF token is correctly passed
+                },
+                body: JSON.stringify({
+                    village: village,
+                    khasra: khasra,
+                    farm_name: farmName,
+                    area: area,
+                    polygon: polygonCoordinates.map(coord => [coord[0], coord[1]]),
+                })
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displaySuccess(data.success);
+                    // Reset all fields after successful save
+                    document.getElementById('villageSelect').value = '';
+                    document.getElementById('khasraInput').value = '';
+                    document.getElementById('farmNameInput').value = '';
+                    if (currentPolygon) {
+                        map.removeLayer(currentPolygon); // Remove the polygon from the map
+                        currentPolygon = null; // Reset the currentPolygon variable
+                    }
+                    document.getElementById('areaValue').innerText = '0'; // Reset area display
+                } else {
+                    displayError(data.error);
+                }
+            })
+            .catch(error => {
+                displayError('An unexpected error occurred.');
+            });
+        });
+    </script>       
+</body>
+</html>
