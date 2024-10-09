@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard - Agriculture e-Market</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <div class="flex flex-grow">
+        <aside class="sidebar bg-green-600 text-white p-5 w-64 flex flex-col shadow-lg">
+            <div class="logo text-center mb-5">
+                <img src="growing.png" alt="Market Logo" class="h-16 mx-auto">
+            </div>
+            <nav>
+                <ul class="space-y-4">
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-green-700">Dashboard</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-green-700">Products</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-green-700">Orders</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-green-700">Sales Reports</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-green-700">Account Settings</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-green-700">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content flex-grow p-5">
+            
+
+            <section class="overview grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-medium text-gray-800">Total Sales</h3>
+                    <p class="text-2xl font-bold text-green-500">₹8,81,900</p>
+                </div>
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-medium text-gray-800">Products Listed</h3>
+                    <p class="text-2xl font-bold text-green-500">65</p>
+                </div>
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-medium text-gray-800">Pending Orders</h3>
+                    <p class="text-2xl font-bold text-green-500">12</p>
+                </div>
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-medium text-gray-800">Revenue This Month</h3>
+                    <p class="text-2xl font-bold text-green-500">₹1,25,300</p>
+                </div>
+            </section>
+
+            <section class="sales-trends mb-6">
+                <h2 class="text-xl font-semibold mb-4">Sales Trends</h2>
+                <div class="charts grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="chart">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="product-management mb-6">
+                <h2 class="text-xl font-semibold mb-4">Manage Your Products</h2>
+                <a href="#" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 inline-block mb-4">Add New Product</a>
+                <table class="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-gray-600">
+                            <th class="py-2 px-4 border-b">Product</th>
+                            <th class="py-2 px-4 border-b">Category</th>
+                            <th class="py-2 px-4 border-b">Price</th>
+                            <th class="py-2 px-4 border-b">Stock (Quintal)</th>
+                            <th class="py-2 px-4 border-b">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left text-gray-700">
+                            <td class="py-2 px-4 border-b">Wheat</td>
+                            <td class="py-2 px-4 border-b">White Wheat</td>
+                            <td class="py-2 px-4 border-b">₹120</td>
+                            <td class="py-2 px-4 border-b">50</td>
+                            <td class="py-2 px-4 border-b"><a href="#" class="text-green-600 hover:underline">Edit</a> <a href="#" class="text-red-600 hover:underline">Delete</a></td>
+                        </tr>
+                        <!-- More rows as needed -->
+                    </tbody>
+                </table>
+            </section>
+        
+        </main>
+    </div>
+
+    <script>
+        // Bar Chart
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Sales Amount',
+                    data: [100000, 125000, 107056, 108000, 125300],
+                    backgroundColor: '#4caf50',
+                    borderColor: '#388e3c',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ₹' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { beginAtZero: true },
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Line Chart
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        const lineChart = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Weekly Sales',
+                    data: [150, 200, 175, 220],
+                    borderColor: '#ff9800',
+                    backgroundColor: 'rgba(255, 152, 0, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ₹' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { beginAtZero: true },
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

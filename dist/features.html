@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Farmvision Features</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+     /* Keyframes for heading animation */
+     @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Class for applying heading animation */
+        .heading-animation {
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        /* Background image for the main section */
+        .bg-image {
+            background-image: url('images/flowers-3655451_1280.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+
+        /* Animation for the video button */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Full page centering */
+        .full-center {
+            height: 60vh; /* Reduce height from 100vh to 70vh */
+        }
+
+        /* Background image for the main section */
+        .bg-image {
+            background-image: url('images/flowers-3655451_1280.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 60vh; /* Reduce height to match full-center */
+        }
+
+        /* You can also add padding to the container if needed */
+      
+        .styled-button {
+            display: inline-flex;
+            align-items: center;
+            border: 2px solid green; /* Green border around the button */
+            color: green; /* Text color green */
+            padding: 10px 20px;
+            border-radius: 50px; /* Fully rounded corners */
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease; /* Smooth transition */
+        }
+
+        .styled-button:hover {
+            background-color: green; /* Background changes to green on hover */
+            color: white; /* Text color changes to white */
+            transform: translateY(-3px); /* Button lifts slightly on hover */
+        }
+
+        /* Arrow Icon */
+        .styled-button .arrow-icon {
+            margin-left: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: green; /* Green background for the circle */
+            color: white; /* White arrow */
+            border-radius: 50%; /* Circular icon */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .styled-button:hover .arrow-icon {
+            background-color: white; /* Arrow background becomes white on hover */
+            color: green; /* Arrow color turns green */
+        }
+
+        /* Arrow SVG */
+        .styled-button svg {
+            width: 12px;
+            height: 12px;
+        }
+    .heading-underline {
+      position: relative;
+    }
+    .heading-underline::before {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 4px;
+      background-color: #34D399;
+      bottom: -10px;
+      left: 0;
+    }
+
+    /* Circular decoration style for every second feature */
+    .section-bg {
+      background: linear-gradient(145deg, rgba(220, 240, 200, 0.4), rgba(255, 255, 255, 0.5));
+      position: relative;
+    }
+    .section-bg::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+    
+    /* Left circular decoration for every second feature */
+    .section-bg:nth-child(even)::before {
+      left: -100px;
+      background: rgba(140, 230, 220, 0.3);
+    }
+
+    /* Right circular decoration for every second feature */
+    .section-bg:nth-child(odd)::before {
+      right: -100px;
+      background: rgba(255, 240, 200, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 overflow-x-hidden" id="top">
+    <header class="bg-green-600 text-white py-6 w-full relative">
+        <div class="container mx-auto flex flex-col lg:flex-row items-center justify-between px-6">
+            <!-- Logo -->
+    
+            <div class="text-3xl font-bold mb-4 lg:mb-0 mt-4 lg:mt-0 lg:block hidden">FarmVision</div>
+      
+            <!-- Navigation -->
+            <nav id="nav-menu" class="lg:flex lg:items-center lg:space-x-6 flex flex-col lg:flex-row w-full lg:w-auto hidden lg:flex">
+                <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Home</a>           
+                <a href="#" class="hover:text-gray-200 inline-flex items-center">About us</a>          
+                <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Feature</a>              
+                <a href="#" class="hover:text-gray-200 py-2 lg:py-0">FieldTrack</a>
+                <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Download</a>
+                <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Contact us</a>
+            </nav>
+    
+            <!-- Language Selection and Login Button -->
+            <div class="hidden lg:flex items-center lg:space-x-6 mt-4 lg:mt-0">
+                <div class="relative group">
+                    <a href="#" class="hover:text-gray-200 inline-flex items-center">
+                        <i class="fa-solid fa-globe"></i>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </a>
+                    <div class="absolute hidden group-hover:block bg-white shadow-md mt-2 rounded whitespace-nowrap">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">English</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">Hindi</a>
+                    </div>
+                </div>
+            
+                <a href="#" class="bg-green-600 text-white px-4 py-1 rounded border border-white hover:bg-green-700 transition transform hover:scale-105 focus:ring-2 focus:ring-white focus:ring-opacity-50">Login</a>
+            </div>
+            
+        </div>
+        <!-- mobile Adjust layout -->
+        <div class="flex items-center justify-between w-full lg:hidden">
+            <!-- Logo and Toggle Button in Single Line -->
+            <div class="flex items-center space-x-4">
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" class="text-white text-2xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+    
+                <!-- Logo -->
+                <div class="text-3xl font-bold">FarmVision</div>
+            </div>
+    
+            <!-- Language Selection and Login Button on Right -->
+            <div class="flex items-center space-x-4 mr-3">
+                <div class="relative group">
+                    <a href="#" class="hover:text-gray-200 inline-flex items-center">
+                        <i class="fa-solid fa-globe"></i>
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </a>
+                    <div class="absolute hidden group-hover:block bg-white shadow-md mt-2 rounded whitespace-nowrap">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">English</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">Hindi</a>
+                    </div>
+                    
+                </div>
+    
+                <a href="#" class="bg-green-600 text-white px-4 py-1 rounded border border-white hover:bg-green-700 transition transform hover:scale-105 focus:ring-2 focus:ring-white focus:ring-opacity-50">Login</a>
+            </div>
+        </div>
+    
+        
+        <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex-col items-center justify-center">
+            <nav class="bg-white p-6 rounded-lg w-11/12">
+                <button id="close-menu" class="text-black text-2xl mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <a href="#" class="block py-2 text-gray-800">Home</a>
+                <a href="#" class="block py-2 text-gray-800">About Us</a>
+                <a href="#" class="block py-2 text-gray-800">Features</a>
+                <a href="#" class="block py-2 text-gray-800">Field Track</a>
+                <a href="#" class="block py-2 text-gray-800">Download</a>
+                <a href="#" class="block py-2 text-gray-800">Contact Us</a>
+            </nav>
+        </div>
+        
+    </header>
+ 
+  <section class="full-center flex flex-col justify-center items-center text-center bg-image h-60%">
+    <div class="container mx-auto px-6">
+
+        <!-- Title (Centered) with Animation -->
+        <h1 class="text-5xl font-bold text-green-700 mb-3 heading-animation">FarmVision Features</h1>
+        <nav class="text-gray-500 mb-4">
+          <a href="Landingrough.html" class="text-green-700 font-extrabold text-xl py-2 lg:py-10">Home/</a>
+          <a href="features.html" class="text-green-700 font-extrabold text-xl inline-flex items-center">Features</a>
+          
+        </nav>
+
+        <!-- Discover Farmrut Title -->
+        <h2 class="text-4xl font-bold text-green-700 mb-8">Discover FarmVision</h2>
+
+        <!-- Discover Button -->
+        <a href="#" class="styled-button">
+          Discover Now
+          <div class="arrow-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+          </div>
+      </a>
+    </div>
+</section>
+
+ 
+  <!-- Feature Section -->
+  <section class="container mx-auto py-16 px-6 space-y-20">
+    
+    <!-- Feature 1: Field Boundary Identification -->
+    <section id="field-boundary" class="py-10">
+    <div class="flex flex-col lg:flex-row items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10 ">Field Boundary Identification</h2>
+        <p class="text-gray-600 text-lg leading-relaxed z-10 ">
+          Field boundary identification involves defining the exact borders of agricultural fields using GPS devices, drone or satellite imagery, and GIS tools. It helps optimize resource use, improve crop monitoring, and ensure compliance with regulations. Techniques range from manual mapping to AI-powered automated detection, making it crucial for precision agriculture. Accurate field boundaries support better decision-making, reduce costs, and enhance overall farm management.
+        </p>
+      </div>
+      <div class="lg:w-1/2 z-10">
+        <img src="images/FieldBoundary.png" alt="Field Boundary Identification" class="rounded-xl shadow-md">
+      </div>
+    </div>
+    </section>
+
+    <!-- Feature 2: Crop Health Monitoring -->
+    <section id="crop-health" class="py-10">
+    <div class="flex flex-col lg:flex-row-reverse items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10">Crop Health Monitoring</h2>
+        <p class="text-gray-600 text-lg leading-relaxed z-10">
+          Crop health monitoring involves assessing the condition of crops to identify stress factors such as pests, diseases, water deficiency, or nutrient deficiencies. This is achieved using technologies like satellite and drone imagery, sensors, and AI-powered analytics. Remote sensing tools analyze vegetation indices (e.g., NDVI) to detect abnormalities in crop growth. Effective monitoring enables timely interventions, optimizing yield and minimizing losses.Regular crop health assessments support precision farming, enhancing productivity and sustainability by providing actionable insights into field conditions.
+        </p>
+      </div>
+      <div class="lg:w-1/2 z-10">
+        <img src="images/CropHelathh.png" alt="Crop Health Monitoring" class="rounded-xl shadow-md">
+      </div>
+    </div>
+    </section>
+
+    <!-- Feature 3: Soil Moisture Index -->
+    <section id="soil-moisture" class="py-10">
+    <div class="flex flex-col lg:flex-row items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10">Soil Moisture Index</h2>
+        <p class="text-gray-600 text-lg leading-relaxed z-10">
+          The Soil Moisture Index (SMI) is a measure used to assess the moisture content in the soil, which is crucial for understanding water availability for crops. SMI is typically derived from satellite or drone-based remote sensing data, using specific algorithms to estimate soil moisture levels based on surface reflectance. Common indices include the Normalized Difference Water Index (NDWI) and Land Surface Water Index (LSWI). Monitoring SMI helps optimize irrigation, prevent water stress, and improve crop management by providing timely information on soil water status, thus enhancing agricultural efficiency and sustainability.
+        </p>
+       
+      </div>
+      <div class="lg:w-1/2 z-10">
+        <img src="images/SoilMoisture.png" alt="Soil Moisture Index" class="rounded-xl shadow-md">
+      </div>
+    </div>
+    </section>
+
+    <!-- Feature 4: Agro Climatic Crop Zone Planning -->
+    <section id="agro-climatic" class="py-10">
+    <div class="flex flex-col lg:flex-row-reverse items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10">Agro Climatic Crop Zone Planning</h2>
+        <p class="text-gray-600 text-lg leading-relaxed z-10">
+          Agro-climatic crop zone planning involves identifying and categorizing agricultural regions based on their climate, soil types, and other environmental factors to recommend suitable crops and farming practices. This planning helps optimize crop production by aligning agricultural activities with the specific agro-climatic conditions of each zone. Factors like temperature, rainfall, humidity, and soil fertility are analyzed to suggest the best crop varieties, planting times, and water management strategies. 
+        </p>
+      </div>
+      <div class="lg:w-1/2 z-10">
+        <img src="images/AgroClimatic.png" alt="Agro Climatic Crop Zone Planning" class="rounded-xl shadow-md">
+      </div>
+    </div>
+    </section>
+
+    <!-- Feature 5: Water Resources Information -->
+    <section id="water-resources" class="py-10">
+    <div class="flex flex-col lg:flex-row items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10">Water Resources Information</h2>
+        <p class="text-gray-600 text-lg leading-relaxed z-10">
+          Water resources information refers to the data and insights about the availability, quality, and distribution of water sources such as rivers, lakes, groundwater, and reservoirs. This information includes hydrological data, water quality assessments, usage patterns, and seasonal variations, which are crucial for effective water management and planning. In agriculture, understanding water resources helps optimize irrigation, manage drought risks, and ensure sustainable water use.  </p>
+      </div>
+      <div class="lg:w-1/2 z-10">
+        <img src="images/WaterResource.png" alt="Water Resources Information" class="rounded-xl shadow-md">
+      </div>
+    </div>
+    </section>
+      <!-- Feature 6: Crop Insurance -->
+      <section id="crop-insurance" class="py-10">
+      <div class="flex flex-col lg:flex-row-reverse items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+        <div class="lg:w-1/2">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10">Crop Insurance</h2>
+          <p class="text-gray-600 text-lg leading-relaxed z-10">
+            Modern technology plays a crucial role in enhancing crop insurance processes. Tools such as satellite imagery, drones, and precision agriculture techniques allow for better assessment of crop conditions and risks. These technologies can provide real-time data on soil health, weather patterns, and crop growth, which can help farmers make informed decisions about purchasing insurance and filing claims. 
+          </p>
+        </div>
+        <div class="lg:w-1/2 z-10">
+          <img src="images/insurence.png" alt="Crop Insurance" class="rounded-xl shadow-md">
+        </div>
+      </div>
+    </section>
+    
+    <!-- Feature 7: Harvesting Assessment -->
+    <section id="harvesting-assessment" class="py-10">
+    <div class="flex flex-col lg:flex-row items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10">Harvesting Assessment</h2>
+        <p class="text-gray-600 text-lg leading-relaxed z-10">
+          Harvest assessment is a crucial process that involves evaluating the quantity and quality of crops at harvest time, enabling farmers to make informed decisions regarding yield expectations and market strategies. This assessment includes estimating yield by measuring the amount of crop produced per unit area, as well as evaluating quality based on factors such as size, moisture content, and nutrient composition. Monitoring for pests and diseases during this phase is vital to mitigate losses, while determining the optimal harvest timing ensures maximum yield and quality. 
+        </p>
+      </div>
+        <div class="lg:w-1/2 z-10">
+            <img src="images/HarvestingAssesment.png" alt="Crop Insurance" class="rounded-xl shadow-md">
+        </div>
+        </div>
+        </section>
+  
+    <!-- feature 8: Digital Mandi -->
+        <section id="digital-mandi" class="py-10">
+        <div class="flex flex-col lg:flex-row-reverse items-center space-y-10 lg:space-y-0 lg:space-x-10 rounded-xl bg-white shadow-lg section-bg p-12 relative">
+            <div class="lg:w-1/2">
+              <h2 class="text-4xl font-bold text-gray-800 mb-4 heading-underline z-10">Digital Mandi</h2>
+              <p class="text-gray-600 text-lg leading-relaxed z-10">
+                Digital Mandi refers to the use of digital platforms that facilitate agricultural markets, allowing farmers to sell their produce directly to consumers or buyers without relying on traditional intermediaries. This innovative approach provides farmers with direct access to markets, enabling them to connect with wholesalers, retailers, and consumers, which can lead to better prices and fresher produce. Digital Mandis offer real-time information on market trends, helping farmers make informed decisions about when and where to sell their crops. Additionally, these platforms enhance transparency in pricing, fostering trust between farmers and buyers.
+              </p>
+            </div>
+            <div class="lg:w-1/2 z-10">
+              <img src="images/Digitalmandi.png" alt="Crop Insurance" class="rounded-xl shadow-md">
+            </div>
+          </div>
+          </section>
+        </section>
+        
+        <a href="#top" class="fixed bottom-4 right-4 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-full p-4 shadow-lg hover:shadow-xl hover:bg-gradient-to-r hover:from-green-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-110 border border-white flex items-center justify-center">
+          <!-- Arrow Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 transform transition-transform duration-300 hover:-rotate-45">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+          </svg>
+      </a>
+
+
+  <!-- Footer -->
+  <footer class="bg-green-600 text-white py-8">
+    <div class="container mx-auto flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 lg:space-x-20">
+        
+        <!-- Navigation Section (Left Aligned) -->
+        <div class="flex flex-col items-center md:items-start">
+            <h3 class="font-bold text-lg mb-4 footer-heading uppercase tracking-wide">Navigation</h3>
+            <ul class="space-y-2">
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Home</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">About Us</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Features</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Field Track</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Download</a></li>
+            </ul>
+        </div>
+  
+        <!-- Social Media Section (Centered) -->
+        <div class="flex flex-col items-center">
+            <h3 class="font-bold text-lg mb-4 footer-heading uppercase tracking-wide">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-twitter"></i></a> <!-- Updated to X icon -->
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-linkedin"></i></a>
+          </div>
+          
+            <div class="flex space-x-4 mt-4">
+                <a href="#" class="footer-link text-sm hover:text-gray-200">Privacy Policy</a>
+                <a href="#" class="footer-link text-sm hover:text-gray-200">Terms of Service</a>
+            </div>
+        </div>
+  
+        <!-- Contact Section (Right Aligned) -->
+        <div class="flex flex-col items-center md:items-start">
+            <h3 class="font-bold text-lg mb-4 footer-heading uppercase tracking-wide">Contact Us</h3>
+            <ul class="space-y-2 text-sm md:text-base">
+                <li class="flex justify-start items-center">
+                    <i class="fas fa-map-marker-alt mr-2 text-green-300"></i>
+                    408, IV Floor, JTM Mall, Jagatpura,<br/>Jaipur (Raj.) - 302017
+                </li>
+                <li class="flex justify-start items-center">
+                    <i class="fas fa-phone-alt mr-2 text-green-300"></i>
+                    +91-8005758199
+                </li>
+                <li class="flex justify-start items-center">
+                    <i class="fas fa-envelope mr-2 text-green-300"></i>
+                    farmvision@geoplanetsolution.com
+                </li>
+            </ul>
+        </div>
+  
+        <!-- Google Play Store and App Store Section (Fourth Column) -->
+        <div class="flex flex-col items-center">
+          <a href="https://play.google.com/store/apps" target="_blank">
+              <img src="images/playstore.png" class="w-32" alt="Get it on Google Play">
+          </a>
+          <a href="https://www.apple.com/app-store/" target="_blank" class="mt-1"> <!-- Adjust margin-top here -->
+              <img src="images/app store.png" class="w-32" alt="Download on App Store">
+          </a>
+        </div>
+
+    </div>
+  
+    <!-- Footer Bottom -->
+    <div class="container mx-auto text-center mt-6 pt-4">
+      <p class="text-sm text-gray-600">Designed & Developed with love by GPSPL.</p>
+        <p class="text-sm text-gray-600">&copy; 2024 Geo Planet Solution Limited. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
+
+
+ <script>
+        document.getElementById('menu-btn').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.remove('hidden');
+         });
+
+        document.getElementById('close-menu').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.add('hidden');
+        });
+ </script>
+
+</body>
+</html>

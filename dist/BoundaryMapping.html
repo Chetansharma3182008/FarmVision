@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Farmer Dashboard</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <!-- Leaflet CSS -->
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+     <!-- Leaflet JS -->
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+ 
+    <style>
+        /* Custom styles for premium look */
+        .premium-shadow {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-premium {
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+        }
+
+        .dropdown-hidden {
+            display: none;
+        }
+
+        .dropdown-visible {
+            display: block;
+        }
+
+        /* Sidebar customization */
+        .sidebar {
+            height: calc(100vh - 64px); /* Adjust to fit with header */
+            top: 64px; /* Same height as the header */
+            overflow-y: auto; /* Scrollable sidebar */
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #4a5568; /* Scrollbar thumb color */
+            border-radius: 4px;
+        }
+
+        .dropdown-icon {
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-visible .dropdown-icon {
+            transform: rotate(90deg);
+        }
+
+        .profile-section {
+            cursor: pointer;
+        }
+
+        /* Sidebar icon and text alignment */
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-item span {
+            margin-right: 8px;
+        }
+            /* Leaflet Map Styles */
+            #map {
+            width: 100%;
+            height: 300px; /* Default height for mobile */
+            border: 1px solid #2f6d40;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        @media (min-width: 769px) {
+            #map {
+                height: 400px; /* Adjust height for larger screens */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #map {
+                height: 500px; /* Adjust height for desktop screens */
+            }
+        }
+
+        /* Mobile menu button */
+        #mobileMenuButton {
+            position: fixed;
+            top: 20px;
+            right: 20px; /* Positioned to top-right */
+            background-color: green;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            z-index: 1100; /* Ensuring button is above all elements */
+        }
+
+        /* Main content margin to prevent overlap */
+        .main-content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        @media (min-width: 769px) {
+            .main-content {
+                margin-left: 250px; /* Adjust margin for larger screens */
+            }
+        }
+      
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full bg-gradient-to-r from-green-900 to-green-700 p-4 z-40 flex justify-between items-center">
+        <div class="flex items-center">
+            <!-- Toggle button for mobile view (only visible on mobile) -->
+            <button id="toggle-sidebar" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Logo positioned near the toggle button (only visible on mobile) -->
+            <div class="text-3xl font-bold text-white ml-2 lg:hidden">FarmVision</div>
+        </div>
+    
+        <!-- Right side: Language selection and logout (only visible on mobile) -->
+        <div class="flex items-center space-x-4 lg:hidden">
+            <div class="relative group">
+                <a href="#" class="text-white hover:text-gray-200 inline-flex items-center">
+                   <i class="fas fa-globe"></i>
+                </a>
+                <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded-md whitespace-nowrap">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">English</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">Hindi</a>
+                </div>
+            </div>
+            <a href="#" class="bg-white text-green-600 px-4 py-1 rounded-full hover:bg-green-500 hover:text-white border border-green-600 transition">Logout</a>
+        </div>
+    
+        <!-- Desktop Layout (hidden on mobile) -->
+        <div class="hidden lg:flex items-center justify-between w-full">
+            <div class="text-3xl font-bold text-white">FarmVision</div>
+            <div class="flex items-center space-x-4">
+                <div class="relative group">
+                    <a href="#" class="text-white hover:text-gray-200 inline-flex items-center">
+                       <i class="fas fa-globe"></i>
+                    </a>
+                    <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded-md whitespace-nowrap">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">English</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">Hindi</a>
+                    </div>
+                </div>
+                <a href="#" class="bg-white text-green-600 px-4 py-1 rounded-full hover:bg-green-500 hover:text-white border border-green-600 transition">Logout</a>
+            </div>
+        </div>
+    </header>
+
+
+
+    <!-- Layout Wrapper -->
+    <div class="flex mt-16">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="w-64 bg-gradient-to-r from-green-900 to-green-700 text-white p-4 fixed lg:block hidden lg:top-16 lg:left-0 h-[calc(100vh-64px)] lg:z-30">
+            <!-- Profile Section -->
+            <div class="text-center profile-section" id="userDropdownToggle">
+                <img src="https://github.com/mdo.png" alt="User Avatar" class="w-20 h-20 rounded-full mx-auto mb-2">
+                <h5 class="text-sm font-bold">Saroj Nadar</h5>
+                <p class="text-xs">Farm Manager</p>
+                
+                <!-- Profile Edit Option -->
+                <a href="#" class="flex justify-center items-center mt-2 text-sm hover:text-gray-300">
+                    <span class="material-symbols-outlined text-base mr-1">edit</span>
+                    <span>Edit Profile</span>
+                </a>
+
+                <!-- User Dropdown -->
+                <div id="userDropdown" class="hidden mt-2 bg-white text-gray-700 rounded-lg shadow-lg">
+                    <a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white">Profile</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white">Settings</a>
+                </div>
+            </div>
+        
+            <!-- Sidebar Menu -->
+            <ul class="space-y-4 text-xs">
+                <li>
+                    <a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                        <span class="material-symbols-outlined">home</span>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+        
+                <!-- Dropdown Menu 1 -->
+                <li class="relative">
+                    <a href="#" class="sidebar-item justify-between hover:bg-green-600 p-2 rounded-md transition" onclick="toggleDropdown('menu1')">
+                        <span class="sidebar-item"><span class="material-symbols-outlined">folder</span>Field Boundary</span>
+                        <span class="fas fa-chevron-right dropdown-icon"></span>
+                    </a>
+                    <ul id="menu1" class="pl-4 mt-1 dropdown-hidden">
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Annual Report</a></li>
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Monthly Report</a></li>
+                    </ul>
+                </li>
+        
+                <!-- Dropdown Menu 2 -->
+                <li class="relative">
+                    <a href="#" class="sidebar-item justify-between hover:bg-green-600 p-2 rounded-md transition" onclick="toggleDropdown('menu2')">
+                        <span class="sidebar-item"><span class="material-symbols-outlined">analytics</span>Crop Health</span>
+                        <span class="fas fa-chevron-right dropdown-icon"></span>
+                    </a>
+                    <ul id="menu2" class="pl-4 mt-1 dropdown-hidden">
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Production</a></li>
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Financial</a></li>
+                    </ul>
+                </li>
+        
+                <!-- Dropdown Menu 3 -->
+                <li class="relative">
+                    <a href="#" class="sidebar-item justify-between hover:bg-green-600 p-2 rounded-md transition" onclick="toggleDropdown('menu3')">
+                        <span class="sidebar-item"><span class="material-symbols-outlined">settings</span>Crop zone Planning</span>
+                        <span class="fas fa-chevron-right dropdown-icon"></span>
+                    </a>
+                    <ul id="menu3" class="pl-4 mt-1 dropdown-hidden">
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">User Settings</a></li>
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">App Settings</a></li>
+                    </ul>
+                </li>
+        
+                <!-- New Menu Options -->
+                <li><a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                    <span class="material-symbols-outlined">cloud</span>Traders</a></li>
+                <li><a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                    <span class="material-symbols-outlined">map</span>Product List</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 bg-gray-50 p-8 lg:ml-64">
+          
+            <div class="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5">
+                <!-- Map Section with Leaflet -->
+                <div class="border-black flex-grow p-3 border border-green-900 rounded-lg">
+                    <div id="map" class=""></div> <!-- Leaflet Map Container -->
+                </div>
+
+
+            </div>
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-5 items-start mt-5">
+                <!-- Measurements Section -->
+                <div class="space-y-2 p-3 rounded-md">
+                    <div class="flex space-x-2">
+                        <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">Area: 4,469.19 m²</button> 
+                        <button class="bg-green-600 text-white px-5 py-2 rounded text-sm hover:bg-darkgreen-700 transition">Save</button>  
+                    </div>
+                </div>
+
+                <!-- Map Controls Section -->
+                <div class="space-y-2 p-3  rounded-md">
+                    <div class="flex items-center justify-between">
+                        <label class="text-maroon-700 text-sm font-medium">Enter Name:</label>
+                        <input type="text" placeholder="Enter your farm name" class="ml-2 w-3/5 px-3 py-1 border border-maroon-500 rounded text-sm focus:outline-none focus:ring-1 focus:ring-maroon-500">
+                    </div>
+                    <div class="flex items-center justify-between mt-2">
+                        <label class="text-maroon-700 text-sm font-medium">Khasra Number:</label>
+                        <input type="text" placeholder="Khasra Number" class="ml-2 w-3/5 px-3 py-1 border border-maroon-500 rounded text-sm focus:outline-none focus:ring-1 focus:ring-maroon-500">
+                    </div>
+                </div>
+            </section>
+
+            
+        </main>
+    </div>
+
+    <!-- JavaScript for Interactions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+   
+    <script>
+       // User Dropdown
+        const userDropdownToggle = document.getElementById('userDropdownToggle');
+        const userDropdown = document.getElementById('userDropdown');
+        document.addEventListener('click', function (event) {
+            if (userDropdownToggle.contains(event.target)) {
+                userDropdown.classList.toggle('hidden');
+            } else {
+                userDropdown.classList.add('hidden');
+            }
+        });
+
+        // Sidebar Dropdown Menu Toggles
+        function toggleDropdown(menuId) {
+            const menu = document.getElementById(menuId);
+            menu.classList.toggle('dropdown-hidden');
+            menu.classList.toggle('dropdown-visible');
+        }
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('popup-form');
+            const openButton = document.getElementById('addProductBtn');
+            const closeButton = document.getElementById('close-popup');
+            const cancelButton = document.getElementById('cancel-popup');
+
+
+            openButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                popup.classList.remove('hidden');
+                popup.style.display = 'flex'; // Show the popup
+            });
+
+            closeButton.addEventListener('click', function() {
+                popup.classList.add('hidden');
+                popup.style.display = 'none'; // Hide the popup
+            });
+
+            closeButton.addEventListener('click', closePopup);
+            cancelButton.addEventListener('click', closePopup);
+
+            // Optional: Close the popup when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target === popup) {
+                    popup.classList.add('hidden');
+                    popup.style.display = 'none';
+                }
+            });
+        });
+   document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('toggle-sidebar');
+        const mainContent = document.getElementById('main-content');
+
+        toggleButton.addEventListener('click', function () {
+            sidebar.classList.toggle('hidden');  // Show or hide sidebar
+            
+            // Adjust the sidebar overlay and main content for mobile
+            if (sidebar.classList.contains('hidden')) {
+                mainContent.style.marginLeft = '0';  // Full-width main content when sidebar is hidden
+            } else {
+                sidebar.style.zIndex = '50';  // Sidebar overlaps the main content
+                mainContent.style.marginLeft = '0';  // Sidebar overlaps content on mobile
+            }
+        });
+    });
+        const map = L.map('map').setView([26.9124, 75.7873], 12); // Adjusted zoom level to fit the state
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        // Handle map container resizing on mobile or tablet screen
+            window.addEventListener('resize', function () {
+            map.invalidateSize(); // Ensures the map redraws correctly on resize
+        });
+        document.getElementById('selectFarmButton').addEventListener('click', function () {
+            document.getElementById('selectFarmDropdown').classList.toggle('hidden');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Farmer Dashboard</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <style>
+        /* Custom styles for premium look */
+        .premium-shadow {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-premium {
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+        }
+
+        .dropdown-hidden {
+            display: none;
+        }
+
+        .dropdown-visible {
+            display: block;
+        }
+
+        /* Sidebar customization */
+        .sidebar {
+            height: calc(100vh - 64px); /* Adjust to fit with header */
+            top: 64px; /* Same height as the header */
+            overflow-y: auto; /* Scrollable sidebar */
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #4a5568; /* Scrollbar thumb color */
+            border-radius: 4px;
+        }
+
+        .dropdown-icon {
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-visible .dropdown-icon {
+            transform: rotate(90deg);
+        }
+
+        .profile-section {
+            cursor: pointer;
+        }
+
+        /* Sidebar icon and text alignment */
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-item span {
+            margin-right: 8px;
+        }
+        #productionBarChart {
+        height: 100% !important; /* Ensures the chart fills the container */
+        max-height: 200px; /* Limits the height */
+        }
+        #popup-form {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #popup-form .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full bg-gradient-to-r from-green-900 to-green-700 p-4 z-40 flex justify-between items-center">
+        <div class="flex items-center">
+            <!-- Toggle button for mobile view (only visible on mobile) -->
+            <button id="toggle-sidebar" class="lg:hidden text-white text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Logo positioned near the toggle button (only visible on mobile) -->
+            <div class="text-3xl font-bold text-white ml-2 lg:hidden">FarmVision</div>
+        </div>
+    
+        <!-- Right side: Language selection and logout (only visible on mobile) -->
+        <div class="flex items-center space-x-4 lg:hidden">
+            <div class="relative group">
+                <a href="#" class="text-white hover:text-gray-200 inline-flex items-center">
+                   <i class="fas fa-globe"></i>
+                </a>
+                <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded-md whitespace-nowrap">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">English</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">Hindi</a>
+                </div>
+            </div>
+            <a href="#" class="bg-white text-green-600 px-4 py-1 rounded-full hover:bg-green-500 hover:text-white border border-green-600 transition">Logout</a>
+        </div>
+    
+        <!-- Desktop Layout (hidden on mobile) -->
+        <div class="hidden lg:flex items-center justify-between w-full">
+            <div class="text-3xl font-bold text-white">FarmVision</div>
+            <div class="flex items-center space-x-4">
+                <div class="relative group">
+                    <a href="#" class="text-white hover:text-gray-200 inline-flex items-center">
+                       <i class="fas fa-globe"></i>
+                    </a>
+                    <div class="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded-md whitespace-nowrap">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">English</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white">Hindi</a>
+                    </div>
+                </div>
+                <a href="#" class="bg-white text-green-600 px-4 py-1 rounded-full hover:bg-green-500 hover:text-white border border-green-600 transition">Logout</a>
+            </div>
+        </div>
+    </header>
+
+
+
+    <!-- Layout Wrapper -->
+    <div class="flex mt-16">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="w-64 bg-gradient-to-r from-green-900 to-green-700 text-white p-4 fixed lg:block hidden lg:top-16 lg:left-0 h-[calc(100vh-64px)] lg:z-30">
+            <!-- Profile Section -->
+            <div class="text-center profile-section" id="userDropdownToggle">
+                <img src="https://github.com/mdo.png" alt="User Avatar" class="w-20 h-20 rounded-full mx-auto mb-2">
+                <h5 class="text-sm font-bold">Saroj Nadar</h5>
+                <p class="text-xs">Farm Manager</p>
+                
+                <!-- Profile Edit Option -->
+                <a href="#" class="flex justify-center items-center mt-2 text-sm hover:text-gray-300">
+                    <span class="material-symbols-outlined text-base mr-1">edit</span>
+                    <span>Edit Profile</span>
+                </a>
+
+                <!-- User Dropdown -->
+                <div id="userDropdown" class="hidden mt-2 bg-white text-gray-700 rounded-lg shadow-lg">
+                    <a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white">Profile</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-green-600 hover:text-white">Settings</a>
+                </div>
+            </div>
+        
+            <!-- Sidebar Menu -->
+            <ul class="space-y-4 text-xs">
+                <li>
+                    <a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                        <span class="material-symbols-outlined">home</span>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+        
+                <!-- Dropdown Menu 1 -->
+                <li class="relative">
+                    <a href="#" class="sidebar-item justify-between hover:bg-green-600 p-2 rounded-md transition" onclick="toggleDropdown('menu1')">
+                        <span class="sidebar-item"><span class="material-symbols-outlined">folder</span>Field Boundary</span>
+                        <span class="fas fa-chevron-right dropdown-icon"></span>
+                    </a>
+                    <ul id="menu1" class="pl-4 mt-1 dropdown-hidden">
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Annual Report</a></li>
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Monthly Report</a></li>
+                    </ul>
+                </li>
+        
+                <!-- Dropdown Menu 2 -->
+                <li class="relative">
+                    <a href="#" class="sidebar-item justify-between hover:bg-green-600 p-2 rounded-md transition" onclick="toggleDropdown('menu2')">
+                        <span class="sidebar-item"><span class="material-symbols-outlined">analytics</span>Crop Health</span>
+                        <span class="fas fa-chevron-right dropdown-icon"></span>
+                    </a>
+                    <ul id="menu2" class="pl-4 mt-1 dropdown-hidden">
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Production</a></li>
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">Financial</a></li>
+                    </ul>
+                </li>
+        
+                <!-- Dropdown Menu 3 -->
+                <li class="relative">
+                    <a href="#" class="sidebar-item justify-between hover:bg-green-600 p-2 rounded-md transition" onclick="toggleDropdown('menu3')">
+                        <span class="sidebar-item"><span class="material-symbols-outlined">settings</span>Crop zone Planning</span>
+                        <span class="fas fa-chevron-right dropdown-icon"></span>
+                    </a>
+                    <ul id="menu3" class="pl-4 mt-1 dropdown-hidden">
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">User Settings</a></li>
+                        <li><a href="#" class="block py-2 hover:bg-green-600 rounded-md">App Settings</a></li>
+                    </ul>
+                </li>
+        
+                <!-- New Menu Options -->
+                <li><a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                    <span class="material-symbols-outlined">cloud</span>Traders</a></li>
+                <li><a href="#" class="sidebar-item hover:bg-green-600 p-2 rounded-md transition">
+                    <span class="material-symbols-outlined">map</span>Product List</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 bg-gray-50 p-8 lg:ml-64">
+            <!-- Top Section: Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="p-6 bg-green-50 border-l-4 border-green-500 rounded-lg premium-shadow border-l-4 border-green-500 hover:shadow-lg transition">
+                    <h6 class="text-lg font-semibold text-green-600 flex items-center"><span class="material-symbols-outlined mr-2">grain</span> Crop Name</h6>
+                    <p class="text-3xl font-bold mt-2 text-gray-800">Cardamom</p>
+                </div>
+                <div class="p-6 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg premium-shadow border-l-4 border-yellow-500 hover:shadow-lg transition">
+                    <h6 class="text-lg font-semibold text-yellow-600 flex items-center"><span class="material-symbols-outlined mr-2">map</span> Area</h6>
+                    <p class="text-3xl font-bold mt-2 text-gray-800">53 Acre</p>
+                </div>
+                <div class="p-6  bg-red-50 border-l-4 border-red-500 rounded-lg premium-shadow border-l-4 border-red-500 hover:shadow-lg transition">
+                    <h6 class="text-lg font-semibold text-red-600 flex items-center"><span class="material-symbols-outlined mr-2">shopping_cart</span> Last Production</h6>
+                    <p class="text-3xl font-bold mt-2 text-gray-800">1200 kg</p>
+                </div>
+            </div>
+
+            <!-- Environmental Parameters & Financial Statistics -->
+            <div class="flex flex-col lg:flex-row gap-6 mb-6">
+                <!-- Environmental Parameters -->
+                <div class="grid grid-cols-1 gap-4 lg:w-1/3">
+                    <div class="p-6 bg-blue-50 border-l-4 border-blue-500 rounded-lg premium-shadow border-l-4 border-blue-500 hover:shadow-lg transition">
+                        <h6 class="text-lg font-semibold text-blue-600 flex items-center"><span class="material-symbols-outlined mr-2">thermostat</span> Air Temperature</h6>
+                        <p class="text-2xl font-bold mt-2 text-gray-800">38° C <span class="badge-premium bg-red-500 text-white">High</span></p>
+                    </div>
+                    <div class="p-6 bg-green-50 border-l-4 border-green-500 rounded-lg premium-shadow border-l-4 border-green-500 hover:shadow-lg transition">
+                        <h6 class="text-lg font-semibold text-green-600 flex items-center"><span class="material-symbols-outlined mr-2">opacity</span> Water Content</h6>
+                        <p class="text-2xl font-bold mt-2 text-gray-800">32% <span class="badge-premium bg-green-500 text-white">Good</span></p>
+                    </div>
+                    <div class="p-6 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg premium-shadow border-l-4 border-yellow-500 hover:shadow-lg transition">
+                        <h6 class="text-lg font-semibold text-yellow-600 flex items-center"><span class="material-symbols-outlined mr-2">science</span>pH value</h6>
+                        <p class="text-2xl font-bold mt-2 text-gray-800">8<span class="badge-premium bg-yellow-500 text-white ml-2">Base</span></p>
+                    </div>
+                    
+                </div>
+
+                <!-- Financial Statistics -->
+                <div class="lg:w-1/2 p-6 bg-white rounded-lg premium-shadow hover:shadow-lg transition">
+                    <h3 class="text-xl font-semibold mb-4">Financial Statistics</h3>
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="flex justify-center items-center mb-4 md:mb-0">
+                            <div class="relative w-32 h-32">
+                                <canvas id="progressChart"></canvas>
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-2xl font-bold text-green-600">78%</div>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <div class="mb-2">
+                                <p class="text-gray-500">Current Profit</p>
+                                <p class="text-3xl font-bold">64 Lakh</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Expected Profit</p>
+                                <p class="text-3xl font-bold">82 Lakh</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Production Details -->
+            <div class="flex flex-col lg:flex-row gap-6 mb-6">
+                <!-- Production Details Section (Left Column) -->
+                <div class="p-6 bg-white rounded-lg premium-shadow hover:shadow-lg transition w-full lg:w-1/2 h-auto">
+                    <h3 class="text-xl font-semibold mb-4">Production Details</h3>
+                    <div class="w-full" style="height: 200px; overflow: hidden;"> <!-- Added overflow:hidden to contain the graph -->
+                        <canvas id="productionBarChart"></canvas>
+                    </div>
+                </div>
+            
+                <!-- Cards Section (Right Column) -->
+                <div class="flex flex-col gap-2 w-full lg:w-1/2"> <!-- Reduced gap for more compact spacing -->
+                    <div class="bg-blue-50 border-l-4 border-blue-500 rounded-xl shadow-md p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
+                        <div class="icon bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3"> <!-- Reduced icon size and margin -->
+                            <span class="material-symbols-outlined text-2xl">attach_money</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold">Total Sales</h3> <!-- Adjusted text size -->
+                            <p class="text-xl text-green-600 font-bold">₹8,81,900</p>
+                        </div>
+                    </div>
+            
+                    <div class="card bg-green-50 border-l-4 border-green-500  rounded-xl shadow-md p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
+                        <div class="icon bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">
+                            <span class="material-symbols-outlined text-2xl">shopping_bag</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold">Total Orders</h3>
+                            <p class="text-xl text-blue-600 font-bold">200</p>
+                        </div>
+                    </div>
+            
+                    <div class="card bg-yellow-50 border-l-4 border-yellow-500 rounded-xl shadow-md p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
+                        <div class="icon bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">
+                            <span class="material-symbols-outlined text-2xl">people</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold">Total Customers</h3>
+                            <p class="text-xl text-yellow-600 font-bold">150</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <section class="sales-trends mb-5">
+                <h2 class="mb-5">Sales Trends</h2>
+                <div class="charts grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div class="chart">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            <section class="product-management mb-5">
+                <h2 class="mb-5">Manage Your Products</h2>
+                <a href="#" id="addProductBtn" class="btn bg-green-600 text-white py-2 px-4 rounded mb-5 inline-block hover:bg-green-700">Add New Product</a>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-2 border">Product</th>
+                                <th class="p-2 border">Category</th>
+                                <th class="p-2 border">Price</th>
+                                <th class="p-2 border">Stock (Quintal)</th>
+                                <th class="p-2 border">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-2 border">Wheat</td>
+                                <td class="p-2 border">White Wheat</td>
+                                <td class="p-2 border">₹120</td>
+                                <td class="p-2 border">50</td>
+                                <td class="p-2 border">
+                                    <a href="#" class="btn bg-green-600 text-white py-1 px-2 rounded hover:bg-green-700">Edit</a>
+                                    <a href="#" class="btn bg-red-600 text-white py-1 px-2 rounded hover:bg-red-700">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- Popup Form -->
+            <div id="popup-form" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden" style="display: none; justify-content: center; align-items: center;">
+                <div class="modal-content" style="position: relative; background-color: #fff; padding: 20px; border-radius: 12px; width: 80%; max-width: 500px; box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); border: 2px solid #ddd;">
+                    <!-- Close Button -->
+                    <button id="close-popup" style="position: absolute; top: 10px; right: 10px; font-size: 20px; background: none; border: none; cursor: pointer; color: #888;">&times;</button>
+                    <h2 class="text-xl mb-4">Add New Product</h2>
+                    <form id="product-form">
+                        <div class="mb-4">
+                            <label for="product-name" style="display: block; font-size: 0.875rem; font-weight: 500; color: #4a5568; margin-bottom: 0.5rem;">Product Name</label>
+                            <input type="text" id="product-name" name="product-name" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="category" style="display: block; font-size: 0.875rem; font-weight: 500; color: #4a5568; margin-bottom: 0.5rem;">Category</label>
+                            <input type="text" id="category" name="category" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="price" style="display: block; font-size: 0.875rem; font-weight: 500; color: #4a5568; margin-bottom: 0.5rem;">Price</label>
+                            <input type="text" id="price" name="price" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="stock" style="display: block; font-size: 0.875rem; font-weight: 500; color: #4a5568; margin-bottom: 0.5rem;">Stock (Quintal)</label>
+                            <input type="number" id="stock" name="stock" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 6px; transition: border-color 0.3s ease;" required>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                            <button type="submit" style="background-color: #4caf50; color: white; padding: 10px 20px; border-radius: 8px; font-size: 16px; border: none; cursor: pointer; transition: background-color 0.3s ease;">Save</button>
+                            <button type="button" id="cancel-popup" style="background-color: #888; color: white; padding: 10px 20px; border-radius: 8px; font-size: 16px; border: none; cursor: pointer; transition: background-color 0.3s ease;">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            
+        </main>
+    </div>
+
+    <!-- JavaScript for Interactions -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+       // User Dropdown
+        const userDropdownToggle = document.getElementById('userDropdownToggle');
+        const userDropdown = document.getElementById('userDropdown');
+        document.addEventListener('click', function (event) {
+            if (userDropdownToggle.contains(event.target)) {
+                userDropdown.classList.toggle('hidden');
+            } else {
+                userDropdown.classList.add('hidden');
+            }
+        });
+
+        // Sidebar Dropdown Menu Toggles
+        function toggleDropdown(menuId) {
+            const menu = document.getElementById(menuId);
+            menu.classList.toggle('dropdown-hidden');
+            menu.classList.toggle('dropdown-visible');
+        }
+       
+        // Financial Statistics Chart
+        const ctx = document.getElementById('productionBarChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Production (kg)',
+                    data: [150, 200, 250, 300, 350, 400, 450],
+                    backgroundColor: ['#66bb6a', '#ffa726', '#42a5f5', '#ab47bc', '#ef5350', '#ffca28', '#26a69a'],
+                    borderColor: ['#388e3c', '#f57c00', '#1976d2', '#8e24aa', '#d32f2f', '#fbc02d', '#00796b'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+        
+
+        // Progress Circle Chart
+        const ctx2 = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: { datasets: [{ data: [78, 22], backgroundColor: ['#2f855a', '#e5e7eb'], borderWidth: 0 }] },
+            options: { cutout: '80%', responsive: true }
+        });
+        // seller dasboard Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        const barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [12000, 19000, 3000, 5000, 2000, 3000],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Line Chart
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        const lineChart = new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [15000, 25000, 12000, 15000, 20000, 22000],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('popup-form');
+            const openButton = document.getElementById('addProductBtn');
+            const closeButton = document.getElementById('close-popup');
+            const cancelButton = document.getElementById('cancel-popup');
+
+
+            openButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                popup.classList.remove('hidden');
+                popup.style.display = 'flex'; // Show the popup
+            });
+
+            closeButton.addEventListener('click', function() {
+                popup.classList.add('hidden');
+                popup.style.display = 'none'; // Hide the popup
+            });
+
+            closeButton.addEventListener('click', closePopup);
+            cancelButton.addEventListener('click', closePopup);
+
+            // Optional: Close the popup when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target === popup) {
+                    popup.classList.add('hidden');
+                    popup.style.display = 'none';
+                }
+            });
+        });
+   document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('toggle-sidebar');
+        const mainContent = document.getElementById('main-content');
+
+        toggleButton.addEventListener('click', function () {
+            sidebar.classList.toggle('hidden');  // Show or hide sidebar
+            
+            // Adjust the sidebar overlay and main content for mobile
+            if (sidebar.classList.contains('hidden')) {
+                mainContent.style.marginLeft = '0';  // Full-width main content when sidebar is hidden
+            } else {
+                sidebar.style.zIndex = '50';  // Sidebar overlaps the main content
+                mainContent.style.marginLeft = '0';  // Sidebar overlaps content on mobile
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>

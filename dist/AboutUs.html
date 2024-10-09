@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Farmrut</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Keyframes for heading animation */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Class for applying heading animation */
+        .heading-animation {
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        /* Background image for the main section */
+        .bg-image {
+            background-image: url('images/flowers-3655451_1280.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+
+        /* Animation for the video button */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Full page centering */
+        .full-center {
+            height: 100vh;
+        }
+        .styled-button {
+            display: inline-flex;
+            align-items: center;
+            border: 2px solid green; /* Green border around the button */
+            color: green; /* Text color green */
+            padding: 10px 20px;
+            border-radius: 50px; /* Fully rounded corners */
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease; /* Smooth transition */
+        }
+
+        .styled-button:hover {
+            background-color: green; /* Background changes to green on hover */
+            color: white; /* Text color changes to white */
+            transform: translateY(-3px); /* Button lifts slightly on hover */
+        }
+
+        /* Arrow Icon */
+        .styled-button .arrow-icon {
+            margin-left: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: green; /* Green background for the circle */
+            color: white; /* White arrow */
+            border-radius: 50%; /* Circular icon */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .styled-button:hover .arrow-icon {
+            background-color: white; /* Arrow background becomes white on hover */
+            color: green; /* Arrow color turns green */
+        }
+
+        /* Arrow SVG */
+        .styled-button svg {
+            width: 12px;
+            height: 12px;
+        }
+         /* Purpose Section Gradient */
+         .bg-gradient-green-light {
+            background: linear-gradient(135deg, #d4f8e8, #a0f0c7); /* Light green gradient */
+        }
+
+        /* Vision Section Gradient */
+        .bg-gradient-green-dark {
+            background: linear-gradient(135deg, #f0fff4, #adebad); /* White to green gradient */
+        }
+
+        /* Heading Styles */
+        .section-heading {
+            position: relative;
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #2d6a4f; /* Dark green for headings */
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        /* Decorative line under headings */
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            width: 70px;
+            height: 5px;
+            background-color: #2d6a4f;
+            border-radius: 50px;
+        }
+
+        /* Purpose: Align left, line on the left */
+        .heading-left {
+            text-align: left;
+        }
+
+        .heading-left::after {
+            left: 0;
+        }
+
+        /* Vision: Align right, line on the right */
+        .heading-right {
+            text-align: right;
+        }
+
+        .heading-right::after {
+            right: 0;
+        }
+
+        /* Paragraph Styling */
+        .section-paragraph {
+            font-size: 1.25rem;
+            color: #4a5568;
+            line-height: 1.75;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Smooth Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Decorative Shapes */
+        .decorative-shape-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 150px;
+            background-color: #a0f0c7;
+            opacity: 0.5;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .decorative-shape-right {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background-color: #d4f8e8;
+            opacity: 0.5;
+            border-radius: 50%;
+            z-index: -1;
+        }
+       /* Footer Gradient Background */
+       .footer-gradient {
+            background: linear-gradient(135deg, #3c9a66, #2d6a4f); /* Green gradient */
+        }
+
+        /* Footer Links Hover Effect */
+        .footer-link:hover {
+            color: #a5ffce; /* Light green hover effect */
+            transition: all 0.3s ease;
+        }
+
+        /* Footer Icons Hover */
+        .footer-icon:hover {
+            transform: scale(1.1);
+            color: #a5ffce; /* Light green hover effect for icons */
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        /* Section Headings in Footer */
+        .footer-heading {
+            color: #e0f2e9; /* Softer green for headings */
+        }
+
+        /* Divider Border */
+        .footer-divider {
+            border-top-color: rgba(255, 255, 255, 0.2);
+        }
+      
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+<header class="bg-green-600 text-white py-6 w-full relative">
+    <div class="container mx-auto flex flex-col lg:flex-row items-center justify-between px-6">
+        <!-- Logo -->
+
+        <div class="text-3xl font-bold mb-4 lg:mb-0 mt-4 lg:mt-0 lg:block hidden">FarmVision</div>
+  
+        <!-- Navigation -->
+        <nav id="nav-menu" class="lg:flex lg:items-center lg:space-x-6 flex flex-col lg:flex-row w-full lg:w-auto hidden lg:flex">
+            <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Home</a>           
+            <a href="#" class="hover:text-gray-200 inline-flex items-center">About us</a>          
+            <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Feature</a>              
+            <a href="#" class="hover:text-gray-200 py-2 lg:py-0">FieldTrack</a>
+            <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Download</a>
+            <a href="#" class="hover:text-gray-200 py-2 lg:py-0">Contact us</a>
+        </nav>
+
+        <!-- Language Selection and Login Button -->
+        <div class="hidden lg:flex items-center lg:space-x-6 mt-4 lg:mt-0">
+            <div class="relative group">
+                <a href="#" class="hover:text-gray-200 inline-flex items-center">
+                    <i class="fa-solid fa-globe"></i>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+                <div class="absolute hidden group-hover:block bg-white shadow-md mt-2 rounded whitespace-nowrap">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">English</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">Hindi</a>
+                </div>
+            </div>
+        
+            <a href="#" class="bg-green-600 text-white px-4 py-1 rounded border border-white hover:bg-green-700 transition transform hover:scale-105 focus:ring-2 focus:ring-white focus:ring-opacity-50">Login</a>
+        </div>
+        
+    </div>
+    <!-- mobile Adjust layout -->
+    <div class="flex items-center justify-between w-full lg:hidden">
+        <!-- Logo and Toggle Button in Single Line -->
+        <div class="flex items-center space-x-4">
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="text-white text-2xl">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <!-- Logo -->
+            <div class="text-3xl font-bold">FarmVision</div>
+        </div>
+
+        <!-- Language Selection and Login Button on Right -->
+        <div class="flex items-center space-x-4 mr-3">
+            <div class="relative group">
+                <a href="#" class="hover:text-gray-200 inline-flex items-center">
+                    <i class="fa-solid fa-globe"></i>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+                <div class="absolute hidden group-hover:block bg-white shadow-md mt-2 rounded whitespace-nowrap">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">English</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-600 hover:text-white">Hindi</a>
+                </div>
+                
+            </div>
+
+            <a href="#" class="bg-green-600 text-white px-4 py-1 rounded border border-white hover:bg-green-700 transition transform hover:scale-105 focus:ring-2 focus:ring-white focus:ring-opacity-50">Login</a>
+        </div>
+    </div>
+
+    
+    <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex-col items-center justify-center">
+        <nav class="bg-white p-6 rounded-lg w-11/12">
+            <button id="close-menu" class="text-black text-2xl mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <a href="#" class="block py-2 text-gray-800">Home</a>
+            <a href="#" class="block py-2 text-gray-800">About Us</a>
+            <a href="#" class="block py-2 text-gray-800">Features</a>
+            <a href="#" class="block py-2 text-gray-800">Field Track</a>
+            <a href="#" class="block py-2 text-gray-800">Download</a>
+            <a href="#" class="block py-2 text-gray-800">Contact Us</a>
+        </nav>
+    </div>
+    
+</header>
+    <!-- Main Content Section with Background Image -->
+    <section class="full-center flex flex-col justify-center items-center text-center bg-image">
+        <div class="container mx-auto px-6">
+
+            <!-- Title (Centered) with Animation -->
+            <h1 class="text-5xl font-bold text-green-700 mb-12 heading-animation">About FarmVision</h1>
+            <nav class="text-gray-500 mb-4">
+              <a href="Landingrough.html" class="text-green-700 font-extrabold text-xl py-2 lg:py-0">Home/</a>
+              <a href="#" class="text-green-700 font-extrabold text-xl inline-flex items-center">About us</a>
+              
+            </nav>
+
+            <!-- Video Button in the Center -->
+            <div class="mb-12 flex justify-center items-center">
+              <a href="https://youtu.be/mPCF5F3HiY8?si=eBSg7eSqmGC55ZOi" target="_blank" class="w-24 h-24 bg-green-600 text-white rounded-full flex items-center justify-center pulse-animation hover:bg-green-700 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2-10.28v4.56c0 .5.45.84.88.67l4-2.28a.75.75 0 000-1.34l-4-2.28A.75.75 0 008 7.72z" clip-rule="evenodd" />
+                  </svg>
+              </a>
+          </div>
+
+            <!-- Discover Farmrut Title -->
+            <h2 class="text-4xl font-bold text-green-700 mb-8">Discover FarmVision</h2>
+
+            <!-- Discover Button -->
+            <a href="#" class="styled-button">
+              Discover Now
+              <div class="arrow-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+              </div>
+          </a>
+        </div>
+    </section>
+
+    <!-- Purpose Section -->
+    <section class="bg-gradient-green-light p-8 md:p-16 text-center md:text-left fade-in relative">
+      <div class="decorative-shape-left"></div>
+      <div class="max-w-7xl mx-auto">
+          <h2 class="section-heading heading-left">The Purpose</h2>
+          <p class="section-paragraph">
+              Our project is focused on empowering individuals by bridging the digital divide, leading to a significant improvement in their quality of life. We are dedicated to providing access to essential resources, insights, and opportunities for growth. Our goal is to offer the tools and networks needed to excel in today’s fast-paced digital environment.
+          </p>
+      </div>
+  </section>
+
+  <!-- Vision Section -->
+  <section class="bg-gradient-green-dark p-8 md:p-16 text-center md:text-left shadow-lg mt-10 fade-in relative">
+      <div class="decorative-shape-right"></div>
+      <div class="max-w-7xl mx-auto">
+          <h2 class="section-heading heading-right">Our Vision</h2>
+          <p class="section-paragraph">
+              By 2028, we envision a world where every person is digitally empowered, leading to an exponential increase in their productivity and income. We aim to revolutionize everyday practices with the help of tailored technological solutions and strategic partnerships, ensuring long-term growth and transformation.
+          </p>
+      </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="bg-gradient-green-light p-8 md:p-16 text-center md:text-left mt-10 fade-in">
+    <div class="decorative-shape-left"></div>
+      <div class="max-w-7xl mx-auto">
+          <h2 class="section-heading heading-left">Our Mission</h2>
+          <p class="section-paragraph">
+              Our mission is to drive sustainable growth by leveraging technology to close the digital gap, elevating opportunities for all. We strive to lead the way in creating a more connected, prosperous future through innovative solutions and collaborative efforts.
+          </p>
+      </div>
+  </section>
+
+  <footer class="bg-green-600 text-white py-8">
+    <div class="container mx-auto flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 lg:space-x-20">
+        
+        <!-- Navigation Section (Left Aligned) -->
+        <div class="flex flex-col items-center md:items-start">
+            <h3 class="font-bold text-lg mb-4 footer-heading uppercase tracking-wide">Navigation</h3>
+            <ul class="space-y-2">
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Home</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">About Us</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Features</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Field Track</a></li>
+                <li><a href="#" class="footer-link text-sm md:text-base hover:text-gray-200">Download</a></li>
+            </ul>
+        </div>
+  
+        <!-- Social Media Section (Centered) -->
+        <div class="flex flex-col items-center">
+            <h3 class="font-bold text-lg mb-4 footer-heading uppercase tracking-wide">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-twitter"></i></a> <!-- Updated to X icon -->
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="footer-icon text-white text-2xl hover:text-gray-200"><i class="fab fa-linkedin"></i></a>
+          </div>
+          
+            <div class="flex space-x-4 mt-4">
+                <a href="#" class="footer-link text-sm hover:text-gray-200">Privacy Policy</a>
+                <a href="#" class="footer-link text-sm hover:text-gray-200">Terms of Service</a>
+            </div>
+        </div>
+  
+        <!-- Contact Section (Right Aligned) -->
+        <div class="flex flex-col items-center md:items-start">
+            <h3 class="font-bold text-lg mb-4 footer-heading uppercase tracking-wide">Contact Us</h3>
+            <ul class="space-y-2 text-sm md:text-base">
+                <li class="flex justify-start items-center">
+                    <i class="fas fa-map-marker-alt mr-2 text-green-300"></i>
+                    408, IV Floor, JTM Mall, Jagatpura,<br/>Jaipur (Raj.) - 302017
+                </li>
+                <li class="flex justify-start items-center">
+                    <i class="fas fa-phone-alt mr-2 text-green-300"></i>
+                    +91-8005758199
+                </li>
+                <li class="flex justify-start items-center">
+                    <i class="fas fa-envelope mr-2 text-green-300"></i>
+                    farmvision@geoplanetsolution.com
+                </li>
+            </ul>
+        </div>
+  
+        <!-- Google Play Store and App Store Section (Fourth Column) -->
+        <div class="flex flex-col items-center">
+          <a href="https://play.google.com/store/apps" target="_blank">
+              <img src="images/playstore.png" class="w-32" alt="Get it on Google Play">
+          </a>
+          <a href="https://www.apple.com/app-store/" target="_blank" class="mt-1"> <!-- Adjust margin-top here -->
+              <img src="images/app store.png" class="w-32" alt="Download on App Store">
+          </a>
+        </div>
+
+    </div>
+  
+    <!-- Footer Bottom -->
+    <div class="container mx-auto text-center mt-6 pt-4">
+      <p class="text-sm text-gray-600">Designed & Developed with love by GPSPL.</p>
+        <p class="text-sm text-gray-600">&copy; 2024 Geo Planet Solution Limited. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+        document.getElementById('menu-btn').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.remove('hidden');
+         });
+
+        document.getElementById('close-menu').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.add('hidden');
+        });
+
+         
+  </script>
+
+</body>
+</html>
