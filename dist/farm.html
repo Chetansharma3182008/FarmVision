@@ -206,12 +206,12 @@
      </div>
 
 
-     <main id="main-content" class="flex-1 bg-gray-50 p-8 lg:ml-64 mt-16">
-        <div class="container mx-auto flex flex-col space-y-8">
+     <main id="main-content" class="flex-1 bg-gray-50 lg:ml-64 mt-16">
+        <div class="container mx-auto p-10 flex flex-col space-y-8">
 
             <!-- Form for village, khasra, and search -->
             <form id="searchForm" class="space-y-6">
-                <div class="flex flex-col md:flex-row md:space-x-6 items-center">
+                <div class="flex flex-col md:flex-row md:space-x-6 items-center ">
                     <!-- Village Select -->
                     <div class="flex-grow mb-4 md:mb-0">
                         <label for="villageSelect" class="block text-lg font-semibold text-gray-800">Select Village:</label>
@@ -246,8 +246,7 @@
             <div id="successMessage" class="text-green-600 font-semibold hidden text-center text-lg"></div>
     
             <!-- Map -->
-            <div id="map" class="rounded-2xl shadow-lg h-96"></div>
-    
+            <div id="map" class="rounded-2xl shadow-lg h-96" style="position: sticky;"></div>
             <!-- Area display centered with styling -->
             <div id="areaDisplay" class="mt-4 text-center text-3xl font-bold text-gray-800">
                 Area: <span id="areaValue" class="text-indigo-600 font-bold text-4xl animate-pulse">0</span> acres
@@ -269,6 +268,7 @@
                             class="mt-5 px-6 py-3 bg-green-700 text-white rounded-md shadow-lg hover:bg-green-800 transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300">
                             Save Farm
                         </button>
+
                     </div>
                 </div>
             </form>
@@ -460,7 +460,6 @@
             var village = document.getElementById('villageSelect').value;
             var khasra = document.getElementById('khasraInput').value;
             var farmName = document.getElementById('farmNameInput').value;
-
             if (!village || !khasra || !farmName || !currentPolygon) {
                 displayError("Please fill in all fields and ensure a polygon is selected.");
                 return;
