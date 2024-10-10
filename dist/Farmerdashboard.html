@@ -250,90 +250,82 @@
 
   
         <!-- Main Content -->
-        <main id="main-content" class="flex-1 bg-gray-50 p-8 lg:ml-64 mt-16">
+        <main id="main-content" class="flex-1 bg-gray-50 p-8 lg:ml-64 mt-12">
 
             <div class="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
                 <!-- Heading -->
-                <div class="text-left">
-                    <h1 class="text-3xl font-bold text-gray-00 leading-tight">
+                <div class="text-center md:text-left w-full md:w-auto">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 leading-tight whitespace-nowrap">
                         Farmer Dashboard | 2024
                     </h1>
                 </div>
             
                 <!-- Buttons Container -->
-                <div class="flex flex-wrap justify-center md:justify-end space-x-0 space-y-2 md:space-x-4 md:space-y-0 text-center">
+                <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:justify-end sm:space-x-4 text-center w-full md:w-auto">
                     <!-- Button 1 -->
-                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out w-full md:w-auto">
-                        <span class="material-symbols-outlined mr-2">add</span>
+                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-2 sm:px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out text-xs sm:text-sm">
+                        <span class="material-symbols-outlined mr-1 sm:mr-2 text-sm">add</span>
                         Add crop
                     </button>
                     <!-- Button 2 -->
-                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out w-full md:w-auto">
-                        <span class="material-symbols-outlined mr-2">trending_up</span>
+                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-2 sm:px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out text-xs sm:text-sm">
+                        <span class="material-symbols-outlined mr-1 sm:mr-2 text-sm">trending_up</span>
                         Price Trends
                     </button>
                     <!-- Button 3 -->
-                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out w-full md:w-auto">
-                        <span class="material-symbols-outlined mr-2">payments</span>
+                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-2 sm:px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out text-xs sm:text-sm">
+                        <span class="material-symbols-outlined mr-1 sm:mr-2 text-sm">payments</span>
                         Current Price
                     </button>
                     <!-- Button 4 -->
-                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out w-full md:w-auto">
-                        <span class="material-symbols-outlined mr-2">history</span>
+                    <button class="flex items-center justify-center bg-white text-gray-800 font-semibold py-2 px-2 sm:px-5 rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out text-xs sm:text-sm">
+                        <span class="material-symbols-outlined mr-1 sm:mr-2 text-sm">history</span>
                         Historical Price
                     </button>
                 </div>
-              
-
             </div>
-            
     
         
             <!-- Top Section: Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="p-3 bg-green-50 border-l:4 border-green:500 rounded-lg premium-shadow border-l-4 border-green-500 hover:shadow-lg transition">
-                    <h6 class="text-lg font-semibold text-green-600 flex items-center"><span class="material-symbols-outlined mr-2">grain</span> Crop Name</h6>
-                    <p class="text-3xl font-bold mt-2 text-gray-800">Cardamom</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded-lg premium-shadow hover:shadow-lg transition">
+                    <h6 class="text-sm sm:text-lg font-semibold text-green-600 flex items-center"><span class="material-symbols-outlined mr-2">grain</span> Crop Name</h6>
+                    <p class="text-xl sm:text-3xl font-bold mt-2 text-gray-800">Cardamom</p>
                 </div>
-                <div class="p-3 bg-yellow-50 border-l:4 border-yellow:500 rounded-lg premium-shadow border-l-4 border-yellow-500 hover:shadow-lg transition">
-                    <h6 class="text-lg font-semibold text-yellow-600 flex items-center"><span class="material-symbols-outlined mr-2">map</span> Area</h6>
-                    <p class="text-3xl font-bold mt-2 text-gray-800">53 Acre</p>
+                <div class="p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg premium-shadow hover:shadow-lg transition">
+                    <h6 class="text-sm sm:text-lg font-semibold text-yellow-600 flex items-center"><span class="material-symbols-outlined mr-2">map</span> Area</h6>
+                    <p class="text-xl sm:text-3xl font-bold mt-2 text-gray-800">53 Acre</p>
                 </div>
-                <div class="p-3  bg-red-50 border-l:4 border-red:500 rounded-lg premium-shadow border-l-4 border-red-500 hover:shadow-lg transition">
-                    <h6 class="text-lg font-semibold text-red-600 flex items-center"><span class="material-symbols-outlined mr-2">shopping_cart</span>Estimated Production</h6>
-                    <p class="text-3xl font-bold mt-2 text-gray-800">1200 kg</p>
+                <div class="col-span-2 sm:col-span-1 p-3 bg-red-50 border-l-4 border-red-500 rounded-lg premium-shadow hover:shadow-lg transition">
+                    <h6 class="text-sm sm:text-lg font-semibold text-red-600 flex items-center"><span class="material-symbols-outlined mr-2">shopping_cart</span>Estimated Production</h6>
+                    <p class="text-xl sm:text-3xl font-bold mt-2 text-gray-800">1200 kg</p>
                 </div>
             </div>
-
-            <!-- Environmental Parameters & Financial Statistics -->
+         
+          <!-- Environmental Parameters & Financial Statistics -->
+  
             <div class="flex flex-col lg:flex-row gap-6 mb-6">
                 <!-- Environmental Parameters -->
-                <div class="grid grid-cols-1 gap-4 lg:w-1/3">
-                    <div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded-lg premium-shadow border-l:4 border-blue:500 hover:shadow-lg transition">
-                        <h6 class="text-lg font-semibold text-blue-600 flex items-center"><span class="material-symbols-outlined mr-2">thermostat</span> Air Temperature</h6>
-                        <p class="text-2xl font-bold mt-2 text-gray-800">38° C <span class="badge-premium bg-red-500 text-white">High</span></p>
+                <div class="grid grid-cols-3 lg:grid-cols-1 gap-2 lg:gap-4 lg:w-1/4">
+                    <div class="p-2 lg:p-3 bg-blue-50 border-l-4 border-blue-500 rounded-lg premium-shadow hover:shadow-lg transition">
+                        <h6 class="text-xs lg:text-lg font-semibold text-blue-600 flex items-center"><span class="material-symbols-outlined mr-1 lg:mr-2">thermostat</span> Air Temperature</h6>
+                        <p class="text-sm lg:text-2xl font-bold mt-1 lg:mt-2 text-gray-800">38° C <span class="badge-premium bg-red-500 text-white text-xs">High</span></p>
                     </div>
-                    <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded-lg premium-shadow border-l:4 border-green:500 hover:shadow-lg transition">
-                        <h6 class="text-lg font-semibold text-green-600 flex items-center"><span class="material-symbols-outlined mr-2">opacity</span>Humidity</h6>
-                        <p class="text-2xl font-bold mt-2 text-gray-800">32% <span class="badge-premium bg-green-500 text-white">Good</span></p>
+                    <div class="p-2 lg:p-3 bg-green-50 border-l-4 border-green-500 rounded-lg premium-shadow hover:shadow-lg transition">
+                        <h6 class="text-xs lg:text-lg font-semibold text-green-600 flex items-center"><span class="material-symbols-outlined mr-1 lg:mr-2">opacity</span>Humidity</h6>
+                        <p class="text-sm lg:text-2xl font-bold mt-1 lg:mt-2 text-gray-800">32% <span class="badge-premium bg-green-500 text-white text-xs">Good</span></p>
                     </div>
-                    <div class="p-3 bg-yellow-50 border-l:4 border-yellow:500 rounded-lg premium-shadow border-l-4 border-yellow-500 hover:shadow-lg transition">
-                        <h6 class="text-lg font-semibold text-yellow-600 flex items-center"><span class="material-symbols-outlined mr-2">science</span>Percipitation</h6>
-                        <p class="text-2xl font-bold mt-2 text-gray-800">8<span class="badge-premium bg-yellow-500 text-white ml-2">Base</span></p>
+                    <div class="p-2 lg:p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg premium-shadow hover:shadow-lg transition">
+                        <h6 class="text-xs lg:text-lg font-semibold text-yellow-600 flex items-center"><span class="material-symbols-outlined mr-1 lg:mr-2">science</span>Preciptation</h6>
+                        <p class="text-sm lg:text-2xl font-bold mt-1 lg:mt-2 text-gray-800">8<span class="badge-premium bg-yellow-500 text-white text-xs ml-1">Base</span></p>
                     </div>
                 </div>
 
-            
-              <!-- Financial Statistics -->
-            <div class="lg:w-2/3 p-6 bg-white rounded-lg premium-shadow hover:shadow-lg transition">
-               
-                <div class="flex flex-col md:flex-row items-center">
-                    <div class="w-full md:w-1/3 flex justify-center items-center mb-4 md:mb-0">
-                      
-                           
-                    </div>
+                <!-- Financial Statistics -->
+                <div class="lg:w-3/4 p-4 lg:p-6 bg-white rounded-lg premium-shadow hover:shadow-lg transition">
+                    <h3 class="text-lg lg:text-xl font-semibold mb-2 lg:mb-4">Financial Statistics</h3>
+                    <!-- Add your financial statistics content here -->
                 </div>
-            </div>
             </div>
         
             <!-- Production Details -->
@@ -347,34 +339,34 @@
                 </div>
             
                 <!-- Cards Section (Right Column) -->
-                <div class="flex flex-col gap-2 w-full lg:w-1/2"> <!-- Reduced gap for more compact spacing -->
-                    <div class="bg-blue-50 border-l-4 border-blue-500 rounded-xl shadow-md p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
-                        <div class="icon bg-green-500 text-white rounded-full w-10 h-13 flex items-center justify-center mr-3"> <!-- Reduced icon size and margin -->
-                            <span class="material-symbols-outlined text-2xl">attach_money</span>
+                <div class="flex flex-row lg:flex-col gap-2 w-full lg:w-1/2">
+                    <div class="w-1/3 lg:w-full bg-blue-50 border-l-4 border-blue-500 rounded-xl shadow-md p-2 lg:p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
+                        <div class="icon bg-green-500 text-white rounded-full w-6 h-6 lg:w-10 lg:h-10 flex items-center justify-center mr-1 lg:mr-3">
+                            <span class="material-symbols-outlined text-sm lg:text-2xl">attach_money</span>
                         </div>
                         <div>
-                            <h3 class="text-base font-semibold">Total Sales</h3> <!-- Adjusted text size -->
-                            <p class="text-xl text-green-600 font-bold">₹8,81,900</p>
+                            <h3 class="text-xs lg:text-base font-semibold">Total Sales</h3>
+                            <p class="text-xs lg:text-xl text-green-600 font-bold">₹8,81,900</p>
                         </div>
                     </div>
-            
-                    <div class="card bg-green-50 border-l-4 border-green-500  rounded-xl shadow-md p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
-                        <div class="icon bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">
-                            <span class="material-symbols-outlined text-2xl">shopping_bag</span>
+                
+                    <div class="w-1/3 lg:w-full bg-green-50 border-l-4 border-green-500 rounded-xl shadow-md p-2 lg:p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
+                        <div class="icon bg-blue-500 text-white rounded-full w-6 h-6 lg:w-10 lg:h-10 flex items-center justify-center mr-1 lg:mr-3">
+                            <span class="material-symbols-outlined text-sm lg:text-2xl">shopping_bag</span>
                         </div>
                         <div>
-                            <h3 class="text-base font-semibold">Total Orders</h3>
-                            <p class="text-xl text-blue-600 font-bold">200</p>
+                            <h3 class="text-xs lg:text-base font-semibold">Total Orders</h3>
+                            <p class="text-xs lg:text-xl text-blue-600 font-bold">200</p>
                         </div>
                     </div>
-            
-                    <div class="card bg-yellow-50 border-l-4 border-yellow-500 rounded-xl shadow-md p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
-                        <div class="icon bg-yellow-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-3">
-                            <span class="material-symbols-outlined text-2xl">people</span>
+                
+                    <div class="w-1/3 lg:w-full bg-yellow-50 border-l-4 border-yellow-500 rounded-xl shadow-md p-2 lg:p-4 flex items-center text-left transition transform hover:shadow-xl hover:scale-105">
+                        <div class="icon bg-yellow-500 text-white rounded-full w-6 h-6 lg:w-10 lg:h-10 flex items-center justify-center mr-1 lg:mr-3">
+                            <span class="material-symbols-outlined text-sm lg:text-2xl">people</span>
                         </div>
                         <div>
-                            <h3 class="text-base font-semibold">Total Customers</h3>
-                            <p class="text-xl text-yellow-600 font-bold">150</p>
+                            <h3 class="text-xs lg:text-base font-semibold">Total Customers</h3>
+                            <p class="text-xs lg:text-xl text-yellow-600 font-bold">150</p>
                         </div>
                     </div>
                 </div>
@@ -382,40 +374,44 @@
             
         <!-- ... existing code ... -->
 
-  <section class="sales-trends mb-5">
-   
-        <!-- Product Management -->
-        <div class="bg-white rounded-lg shadow-md p-4">
-            <h3 class="text-xl font-semibold mb-4">Manage Your Products</h3>
-            <a href="#" id="addProductBtn" class="btn bg-green-600 text-white py-2 px-4 rounded mb-4 inline-block hover:bg-green-700">Add New Product</a>
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="p-2 border">Product</th>
-                            <th class="p-2 border">Category</th>
-                            <th class="p-2 border">Price</th>
-                            <th class="p-2 border">Stock (Quintal)</th>
-                            <th class="p-2 border">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="p-2 border">Wheat</td>
-                            <td class="p-2 border">White Wheat</td>
-                            <td class="p-2 border">₹120</td>
-                            <td class="p-2 border">50</td>
-                            <td class="p-2 border">
-                                <a href="#" class="btn bg-green-600 text-white py-1 px-2 rounded hover:bg-green-700">Edit</a>
-                                <a href="#" class="btn bg-red-600 text-white py-1 px-2 rounded hover:bg-red-700">Delete</a>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                    </tbody>
-                </table>
+        <section class="sales-trends mb-5">
+            <!-- Product Management -->
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h3 class="text-xl font-semibold mb-4">Manage Your Products</h3>
+                <a href="#" id="addProductBtn" class="btn bg-green-600 text-white py-2 px-4 rounded mb-4 inline-block hover:bg-green-700">Add New Product</a>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="p-2 border">Product</th>
+                                <th class="p-2 border hidden sm:table-cell">Category</th>
+                                <th class="p-2 border">Price</th>
+                                <th class="p-2 border hidden sm:table-cell">Stock</th>
+                                <th class="p-2 border">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-2 border">
+                                    <div>Wheat</div>
+                                    <div class="text-xs text-gray-500 sm:hidden">White Wheat</div>
+                                </td>
+                                <td class="p-2 border hidden sm:table-cell">White Wheat</td>
+                                <td class="p-2 border">₹120</td>
+                                <td class="p-2 border hidden sm:table-cell">50 Q</td>
+                                <td class="p-2 border">
+                                    <div class="flex space-x-1">
+                                        <button class="btn bg-green-600 text-white py-1 px-2 rounded text-xs hover:bg-green-700">Edit</button>
+                                        <button class="btn bg-red-600 text-white py-1 px-2 rounded text-xs hover:bg-red-700">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-</section>
+        </section>
 
 <!-- ... rest of the code ... -->
          
