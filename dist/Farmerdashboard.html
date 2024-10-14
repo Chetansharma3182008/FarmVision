@@ -10,6 +10,7 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <style>
         /* Custom styles for premium look */
         .premium-shadow {
@@ -322,10 +323,104 @@
                 </div>
 
                 <!-- Financial Statistics -->
-                <div class="lg:w-3/4 p-4 lg:p-6 bg-white rounded-lg premium-shadow hover:shadow-lg transition">
-                    <h3 class="text-lg lg:text-xl font-semibold mb-2 lg:mb-4">Financial Statistics</h3>
-                    <!-- Add your financial statistics content here -->
+               
+<!-- Financial Statistics (now Plant Growth Activity) -->
+<div class="lg:w-3/4 p-4 lg:p-6 bg-white rounded-lg premium-shadow hover:shadow-lg transition">
+    <h3 class="text-lg lg:text-xl font-semibold mb-2 lg:mb-4">Plant Growth Activity</h3>
+    <div class="bg-white rounded-lg w-full">
+        <div class="flex justify-between items-center mb-2">
+            <div class="relative">
+                <button class="bg-gray-100 text-gray-600 px-3 py-1 text-sm rounded-lg flex items-center">
+                    Weekly
+                    <i class="fas fa-chevron-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+        <div class="relative h-40">
+            <svg class="w-full h-full">
+                <!-- Horizontal grid lines -->
+                <line stroke="#E5E7EB" stroke-width="1" x1="0" x2="100%" y1="100%" y2="100%"></line>
+                <line stroke="#E5E7EB" stroke-width="1" x1="0" x2="100%" y1="75%" y2="75%"></line>
+                <line stroke="#E5E7EB" stroke-width="1" x1="0" x2="100%" y1="50%" y2="50%"></line>
+                <line stroke="#E5E7EB" stroke-width="1" x1="0" x2="100%" y1="25%" y2="25%"></line>
+                <line stroke="#E5E7EB" stroke-width="1" x1="0" x2="100%" y1="0" y2="0"></line>
+                <!-- Vertical grid lines -->
+                <line stroke="#E5E7EB" stroke-width="1" x1="25%" x2="25%" y1="0" y2="100%"></line>
+                <line stroke="#E5E7EB" stroke-width="1" x1="50%" x2="50%" y1="0" y2="100%"></line>
+                <line stroke="#E5E7EB" stroke-width="1" x1="75%" x2="75%" y1="0" y2="100%"></line>
+
+                <!-- Growth path (curved lines between points) -->
+                <path d="M 0 100% Q 25% 70% 50% 60% T 75% 40% T 100% 20%" fill="none" stroke="#00C853" stroke-width="3"></path>
+            </svg>
+
+            <!-- Seed Phase -->
+            <div class="absolute left-0 bottom-0 transform -translate-x-1/2 translate-y-1/2">
+                <div class="bg-white border border-gray-300 rounded-full p-1">
+                    <img alt="Seed Phase" class="w-6 h-6" src="https://storage.googleapis.com/a1aa/image/v4QELBrueVznNS59XeZ3sir28aBoM2aeWHbaesnuSVwMseqcC.jpg"/>
                 </div>
+            </div>
+
+            <!-- Germination -->
+            <div class="absolute left-1/4 bottom-1/3 transform -translate-x-1/2 translate-y-1/2">
+                <div class="bg-white border border-gray-300 rounded-full p-1">
+                    <img alt="Germination" class="w-6 h-6" src="https://storage.googleapis.com/a1aa/image/Pm08CZIYMj4eJ6z1dfvvV8XeIcLoNqWCdWZqGLzl7z2AWvKnA.jpg"/>
+                </div>
+            </div>
+
+            <!-- Tillering -->
+            <div class="absolute left-1/2 bottom-1/2 transform -translate-x-1/2 translate-y-1/2">
+                <div class="bg-white border border-gray-300 rounded-full p-1">
+                    <img alt="Tillering" class="w-6 h-6" src="https://storage.googleapis.com/a1aa/image/LoFvLuGwOe31ZKrPaRdPXdr2XfS6vp731iZn4QFe2KP1XvKnA.jpg"/>
+                </div>
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full bg-black text-white text-xs rounded px-1 py-0.5">
+                    7.8 cm
+                </div>
+            </div>
+
+            <!-- Flowering -->
+            <div class="absolute left-3/4 bottom-2/3 transform -translate-x-1/2 translate-y-1/2">
+                <div class="bg-white border border-gray-300 rounded-full p-1">
+                    <img alt="Flowering" class="w-6 h-6" src="https://storage.googleapis.com/a1aa/image/YoB0PPySFUJENFK09B67lOMjmUJuRGJlmE20CdeFxl381ryJA.jpg"/>
+                </div>
+            </div>
+
+            <!-- Harvest -->
+            <div class="absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2">
+                <div class="bg-white border border-gray-300 rounded-full p-1">
+                    <img alt="Harvest" class="w-6 h-6" src="https://storage.googleapis.com/a1aa/image/9lfxDoRuYER7WKE6dIB9DxdUKPcly9BTyZmElWu6fUg9qXlTA.jpg"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- Labels below the stages -->
+        <div class="flex justify-between mt-2 text-xs">
+            <div class="text-center">
+                <p class="text-gray-800 font-semibold">Seed</p>
+                <p class="text-gray-500">(W1)</p>
+            </div>
+            <div class="text-center">
+                <p class="text-gray-800 font-semibold">Germination</p>
+                <p class="text-gray-500">(W2)</p>
+            </div>
+            <div class="text-center">
+                <p class="text-gray-800 font-semibold">Tillering</p>
+                <p class="text-gray-500">(W3)</p>
+            </div>
+            <div class="text-center">
+                <p class="text-gray-800 font-semibold">Flowering</p>
+                <p class="text-gray-500">(W4)</p>
+            </div>
+            <div class="text-center">
+                <p class="text-gray-800 font-semibold">Harvest</p>
+                <p class="text-gray-500">(W5)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ... rest of the code ... -->
             </div>
         
             <!-- Production Details -->
