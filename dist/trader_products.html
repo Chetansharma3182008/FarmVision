@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ trader.trader_firm_name }}'s Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Animation for card hover */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .card:hover {
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            transition: all 0.4s ease;
+        }
+
+        .trader-card {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 10; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-purple-200 font-sans leading-normal tracking-normal min-h-screen">
+    <div class="container mx-auto p-6">
+        <!-- Back Button -->
+        <div class="flex justify-between items-center mb-8">
+            <a href="{% url 'trader_list' %}" class="bg-white text-purple-600 font-semibold py-2 px-4 rounded-lg shadow hover:bg-purple-600 hover:text-white transition-colors duration-300">
+                &larr; Back to Trader List
+            </a>
+        </div>
+
+        <!-- Trader Details Card -->
+        <div class="bg-white rounded-lg shadow-lg p-8 flex items-center trader-card mb-10">
+            <!-- Trader Image (Small Profile Picture) -->
+            <div class="w-32 h-32">
+                <img src="https://via.placeholder.com/250x250.png?text=Trader+Image" alt="{{ trader.trader_firm_name }}" class="rounded-full object-cover w-full h-full">
+            </div>
+            <!-- Trader Details -->
+            <div class="ml-6 w-full">
+                <h2 class="text-4xl font-bold text-purple-700 mb-2">{{ trader.trader_firm_name }}</h2>
+                <p class="text-gray-700 text-lg mb-4">{{ trader.trader_firm_address }}</p>
+                <p class="text-gray-600"><span class="font-semibold">License:</span> {{ trader.trader_firm_license }}</p>
+                <p class="text-gray-600"><span class="font-semibold">Email:</span> {{ trader.email }}</p>
+                <p class="text-gray-600"><span class="font-semibold">Contact:</span> {{ trader.contact }}</p>
+                <a href="{% url 'messages_page' %}?contact_id={{ trader.user.id }}">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Chat with Trader
+                    </button>
+                </a>
+                
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <h3 class="text-3xl font-semibold text-gray-800 mb-8 text-center">Available Products</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% if products %}
+                {% for product in products %}
+                    <div class="bg-white rounded-lg shadow-xl overflow-hidden card">
+                        <!-- Product Image -->
+                        <img src="https://via.placeholder.com/400x200.png?text=Product+Image" alt="{{ product.name }}" class="w-full h-48 object-cover">
+
+                        <!-- Product Details -->
+                        <div class="p-6">
+                            <h2 class="text-2xl font-bold text-purple-700 mb-2">{{ product.name }}</h2>
+                            <p class="text-gray-700"><span class="font-medium">Price:</span> ₹{{ product.price }} (per quintal)</p>
+                            <p class="text-gray-700"><span class="font-medium">Stock:</span> {{ product.stock }}</p>
+                            <p class="text-gray-700"><span class="font-medium">Category:</span> {{ product.category }}</p>
+                        </div>
+                        <!-- Action Buttons -->
+                        <div class="p-4 flex justify-between">
+                            <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="openModal('{{ product.id }}', '{{ product.stock }}')">
+                                <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center text-gray-700 text-lg col-span-3">No products found for this trader.</p>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Modal for Quantity Input -->
+    <div id="quantityModal" class="modal">
+        <div class="modal-content bg-white rounded-lg shadow-lg p-6 mx-auto my-16 w-1/3">
+            <span class="close cursor-pointer float-right text-gray-600 text-2xl" onclick="closeModal()">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Enter Quantity (Quintals)</h2>  
+            <form id="quantityForm" method="POST" action="{% url 'trader_add_to_cart' 0 %}"> <!-- Placeholder ID -->
+                {% csrf_token %}
+                <input type="number" id="quantityInput" name="quantity" class="border rounded p-2 w-full mb-2" placeholder="Quantity" min="1" required>
+                <p id="error-message" class="text-red-500"></p> <!-- Error message here -->
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add to Cart</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function openModal(productId, stock) {
+            currentProductId = productId; // Store the current product ID
+            document.getElementById('quantityModal').style.display = "block"; // Show the modal
+            document.getElementById('quantityInput').value = ""; // Reset input
+            document.getElementById('error-message').innerText = ""; // Clear previous error
+
+            // Update the action URL to include the product ID
+            const form = document.getElementById('quantityForm');
+            form.action = `{% url 'trader_add_to_cart' 0 %}`.replace('0', currentProductId);
+        }
+
+    
+        function closeModal() {
+            document.getElementById('quantityModal').style.display = "none"; // Hide the modal
+        }
+    
+        // Handle form submission using fetch API
+        document.getElementById('quantityForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const formData = new FormData(this);
+            const actionUrl = this.action;
+    
+            fetch(actionUrl, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'  // Add CSRF token
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect to the cart detail page
+                    window.location.href = "{% url 'trader_cart_detail' %}";  // Adjust to your cart detail URL
+                } else {
+                    // Display the error message in the modal
+                    document.getElementById('error-message').innerText = data.error_message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('error-message').innerText = 'An unexpected error occurred.';
+            });
+        });
+    </script>
+</body>
+</html>

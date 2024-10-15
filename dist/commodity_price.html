@@ -1,0 +1,366 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commodity Prices</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Animate the cards with a smooth transition */
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift the card on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Background animation */
+        body {
+            background: linear-gradient(to right, #e0eafc, #cfdef3); /* Subtle blue gradient */
+        }
+
+        /* Animate sidebar */
+        aside:hover {
+            width: 75%;
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile-first styles */
+        @media (max-width: 640px) {
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            table th, table td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            /* Sidebar adjustments for mobile */
+            aside {
+                width: 100%;
+            }
+
+            aside .account-holder img {
+                width: 50px;
+                height: 50px;
+            }
+
+            aside .text-lg {
+                font-size: 1rem;
+            }
+        }
+
+        /* Larger screens adjustments */
+        @media (min-width: 640px) {
+            table th, table td {
+                padding: 1rem;
+            }
+        }
+
+       /* Loading Overlay */
+       /* Loading Overlay */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    /* Loader Styles */
+    .loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+    }
+
+    .loading-image {
+        width: 100px; /* Adjust size as needed */
+        height: auto; 
+        animation: fade 1.5s infinite; /* Fading effect */
+    }
+
+    label {
+        margin-top: 10px;
+        font-size: 18px;
+        animation: fade 1.5s infinite; /* Fading effect */
+    }
+
+    @keyframes fade {
+        0%, 100% {
+            opacity: 0; /* Start and end transparent */
+        }
+        50% {
+            opacity: 1; /* Fully visible in the middle */
+        }
+    }
+    </style>
+</head>
+<body class="bg-gray-100 flex">
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loader">
+            <img src="{% static 'images/7.png' %}" alt="Loading..." class="loading-image" />
+            <label>Please wait...</label>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="bg-green-500 text-gray-200 w-64 lg:w-72 h-screen sticky top-0 p-5 shadow-lg transition-all duration-300 ease-in-out hover:w-80 hover:bg-gradient-to-br from-blue-500 to-blue-600 md:w-16">
+        <!-- Hamburger Icon for Mobile (visible on small screens) -->
+        <div class="lg:hidden md:hidden sm:flex items-center justify-between p-5 bg-blue-500 text-gray-200">
+            <h3 class="text-lg text-white">Sanskar Sharma</h3>
+            <button id="menu-toggle" class="text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar Menu (hidden on small screens initially) -->
+        <div id="sidebar-menu" class="hidden lg:block md:block sm:hidden">
+            <!-- Account Holder -->
+            <div class="account-holder text-center mb-5">
+                <img src="https://via.placeholder.com/80" alt="Account Holder" class="w-20 h-20 rounded-full mx-auto mb-3 transition-transform transform hover:scale-110">
+                <h3 class="text-lg text-white">Sanskar Sharma</h3>
+                <p class="text-sm text-green-300">Farmer</p>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav>
+                <ul class="list-none p-0">
+                    <!-- Dashboard -->
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 py-3 px-5 text-lg rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-tachometer-alt text-indigo-400 transition-transform transform hover:scale-110"></i>
+                            <span class="transition-opacity opacity-100 hover:opacity-100">Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Products -->
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 py-3 px-5 text-lg rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-box-open text-yellow-400 transition-transform transform hover:scale-110"></i>
+                            <span class="transition-opacity opacity-100 hover:opacity-100">Products</span>
+                        </a>
+                    </li>
+                    <!-- Account Settings -->
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 py-3 px-5 text-lg rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-cogs text-green-400 transition-transform transform hover:scale-110"></i>
+                            <span class="transition-opacity opacity-100 hover:opacity-100">Account Settings</span>
+                        </a>
+                    </li>
+                    <!-- Customer Care -->
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 py-3 px-5 text-lg rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-headset text-blue-400 transition-transform transform hover:scale-110"></i>
+                            <span class="transition-opacity opacity-100 hover:opacity-100">Customer Care</span>
+                        </a>
+                    </li>
+                    <!-- Feedback -->
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 py-3 px-5 text-lg rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-comment-dots text-pink-400 transition-transform transform hover:scale-110"></i>
+                            <span class="transition-opacity opacity-100 hover:opacity-100">Feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- JavaScript to Toggle Sidebar on Mobile -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebarMenu = document.getElementById('sidebar-menu');
+
+        menuToggle.addEventListener('click', () => {
+            sidebarMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('load', () => {
+           document.querySelector('.loading-overlay').style.display = 'none';
+       });
+    </script>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+        <div class="flex flex-col gap-6">
+            <!-- Chart and Cards Container -->
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Chart Section -->
+                <div class="flex-1">
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <div class="text-center font-bold text-xl mb-4 bg-gradient-to-r from-blue-600 via-indigo-450 to-pink-300 text-white p-4 rounded-lg">Prices for {{ commodity }} FY23-24</div>
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="card flex-1 bg-gradient-to-br from-blue-50 to-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition duration-300">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-rupee-sign text-blue-500 text-2xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-lg mb-1">Minimum Support Price (MSP)</div>
+                                        <div class="text-gray-700 text-2xl">₹{{ commodity.msp_price }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-1 bg-gradient-to-br from-green-50 to-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition duration-300">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-chart-line text-green-500 text-2xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-lg mb-1">Average Min Price</div>
+                                        <div class="text-gray-700 text-2xl">₹{{ avg_min_price }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-1 bg-gradient-to-br from-yellow-50 to-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition duration-300">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-chart-bar text-yellow-500 text-2xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-lg mb-1">Average Max Price</div>
+                                        <div class="text-gray-700 text-2xl">₹{{ avg_max_price }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-1 bg-gradient-to-br from-purple-50 to-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition duration-300">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-balance-scale text-purple-500 text-2xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-lg mb-1">Average Modal Price</div>
+                                        <div class="text-gray-700 text-2xl">₹{{ avg_modal_price }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart Section -->
+                        <div class="mt-6">
+                            {% if months and avg_prices %}
+                            <div class="relative">
+                                <canvas id="priceChart" style="max-width: 1500px; max-height: 375px;"></canvas>
+                            </div>
+
+                            <script>
+                                const ctx = document.getElementById('priceChart').getContext('2d');
+                                const avgPrices = {{ avg_prices|safe }};
+                                const months = {{ months|safe }};
+                                const mspPrice = {{ commodity.msp_price|default_if_none:"null" }};
+
+                                const datasets = [
+                                    {
+                                        label: 'Average Price',
+                                        data: avgPrices,
+                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                        borderWidth: 2,
+                                        fill: true,
+                                        tension: 0.3
+                                    }
+                                ];
+
+                                if (mspPrice !== "null") {
+                                    datasets.push({
+                                        label: 'Minimum Support Price (MSP)',
+                                        data: new Array(months.length).fill(mspPrice),
+                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                        borderWidth: 2,
+                                        fill: false,
+                                        tension: 0
+                                    });
+                                }
+
+                                new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: months,
+                                        datasets: datasets
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                position: 'top'
+                                            }
+                                        },
+                                        scales: {
+                                            x: {
+                                                title: {
+                                                    display: true,
+                                                    text: 'Month'
+                                                }
+                                            },
+                                            y: {
+                                                title: {
+                                                    display: true,
+                                                    text: 'Price'
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            </script>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Prices Table -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded-md shadow-md">
+                    <thead class="bg-gradient-to-br from-blue-500 to-pink-300 text-white">
+                        <tr>
+                            <th class="py-3 px-4">State</th>
+                            <th class="py-3 px-4">District</th>
+                            <th class="py-3 px-4">Market</th>
+                            <th class="py-3 px-4">Commodity</th>
+                            <th class="py-3 px-4">Date</th>
+                            <th class="py-3 px-4">Variety</th>
+                            <th class="py-3 px-4">Grade</th>
+                            <th class="py-3 px-4">Min Price </th>
+                            <th class="py-3 px-4">Max Price</th>
+                            <th class="py-3 px-4">Modal Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in data %}
+                            <tr class="bg-white odd:bg-gray-100 hover:bg-gray-200 transition-colors">
+                                <td class="py-3 px-4">{{ record.State }}</td>
+                                <td class="py-3 px-4">{{ record.District }}</td>
+                                <td class="py-3 px-4">{{ record.Market }}</td>
+                                <td class="py-3 px-4">{{ record.Commodity }}</td>
+                                <td class="py-3 px-4">{{ record.Arrival_Date }}</td>
+                                <td class="py-3 px-4">{{ record.Variety }}</td>
+                                <td class="py-3 px-4">{{ record.Grade }}</td>
+                                <td class="py-3 px-4 bg-gradient-to-r from-green-100 to-green-300">
+                                    ₹{{ record.Min_Price }} <i class="fas fa-arrow-down text-green-600"></i>
+                                </td>
+                                <td class="py-3 px-4 bg-gradient-to-r from-yellow-100 to-yellow-300">
+                                    ₹{{ record.Max_Price }} <i class="fas fa-arrow-up text-yellow-600"></i>
+                                </td>
+                                <td class="py-3 px-4 bg-gradient-to-r from-purple-100 to-purple-300">{{ record.Modal_Price }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="10" class="py-4 text-center">No price data available.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

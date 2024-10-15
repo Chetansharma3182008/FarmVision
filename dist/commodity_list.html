@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commodities</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .bg-classic {
+            background-color: #fdfdfd; /* Lighter background */
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-5px); /* Hover effect to make buttons rise */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .pagination-active {
+            background-color: #4f46e5; /* More vibrant color */
+            color: #fff;
+        }
+
+        /* New button animations */
+        .button-animation {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .button-animation:hover {
+            transform: scale(1.1);
+            background-color: #6366f1;
+            color: white;
+        }
+    </style>
+</head>
+<body class="flex">
+    <!-- Sidebar -->
+    <aside class="bg-blue-500 text-white-200 w-64 lg:w-72 h-screen sticky top-0 p-5 shadow-lg transition-all duration-300 ease-in-out hover:w-72">
+        <!-- Account Holder -->
+        <div class="account-holder text-center mb-5">
+            <img src="https://via.placeholder.com/80" alt="Account Holder" class="w-20 h-20 rounded-full mx-auto mb-3 transition-transform transform hover:scale-110">
+            <h3 class="text-lg text-white">Sanskar Sharma</h3>
+            <p class="text-sm text-green-300">Farmer</p>
+        </div>
+        <!-- Navigation Menu -->
+        <nav>
+            <ul class="list-none p-0">
+                <li>
+                    <a href="#" class="block py-3 px-5 text-lg flex items-center rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-tachometer-alt mr-3"></i>Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block py-3 px-5 text-lg flex items-center rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-box-open mr-3"></i>Products
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block py-3 px-5 text-lg flex items-center rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-cogs mr-3"></i>Account Settings
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block py-3 px-5 text-lg flex items-center rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-headset mr-3"></i>Customer Care
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="block py-3 px-5 text-lg flex items-center rounded-md transition-all duration-300 ease-in-out hover:bg-gray-700 hover:text-white">
+                        <i class="fas fa-comment-dots mr-3"></i>Feedback
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 container mx-auto p-8">
+        <h1 class="text-4xl font-bold text-center mb-10 text-indigo-800">Commodities</h1>
+
+        <!-- Error Message -->
+        {% if error %}
+            <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-6 border-l-4 border-red-500">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {% for commodity in page_obj %}
+                <li class="bg-white p-6 rounded-lg btn-hover fade-in transition-all duration-300">
+                    <a href="{% url 'commodity_prices' commodity.name %}" class="block text-gray-900 font-semibold hover:text-blue-600 button-animation">
+                        {% if commodity.image %}
+                            <img src="{{ commodity.image.url }}" alt="{{ commodity.name }}" class="w-full h-40 object-cover rounded-lg mb-5 shadow-md">
+                        {% else %}
+                            <img src="{% static 'images/default_image.jpg' %}" alt="{{ commodity.name }}" class="w-full h-40 object-cover rounded-lg mb-5 shadow-md">
+                        {% endif %}
+                        <span class="block text-lg">{{ commodity.name }}</span>
+                        <span class="block text-sm text-gray-600">MSP: ₹{{ commodity.msp_price }}</span>  <!-- Displaying MSP price -->
+                        <span class="block text-sm text-gray-600">Crop Classification: {{ commodity.classification }}</span> 
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination Controls -->
+        <div class="flex justify-between items-center mt-10">
+            <span class="text-sm text-gray-600">
+                Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} commodities
+            </span>
+            <div class="flex space-x-3">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 shadow-sm transition">Previous</a>
+                {% endif %}
+                {% for page_num in page_obj.paginator.page_range %}
+                    <a href="?page={{ page_num }}" class="px-4 py-2 {% if page_obj.number == page_num %}pagination-active{% else %}bg-gray-300 text-gray-800{% endif %} rounded-lg shadow-sm hover:bg-gray-400 transition">
+                        {{ page_num }}
+                    </a>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 shadow-sm transition">Next</a>
+                {% endif %}
+            </div>
+        </div>        
+    </div>
+</body>
+</html>
